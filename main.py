@@ -53,32 +53,37 @@ def get_random_bunker_description():
         return None
 
 
-# print(get_random_bunker_description())
 
 def get_random_player_card():
-    url = "https://randomall.ru/api/gens/3060"
+    url = "https://randomall.ru/api/gens/1591"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
-        "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        "Content-Type": "application/json",
-        "DNT": "1",
-        "Sec-GPC": "1",
-        "Referer": "https://randomall.ru/custom/gen/3060",
-        "Connection": "keep-alive",
-        "Origin": "https://randomall.ru",
-        "Cookie": "_ga_XY0LZCZG3D=GS1.1.1735162080.1.1.1735162726.0.0.0; _ga=GA1.1.556935018.1735162081",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Content-Type": "application/json",
+    "Origin": "https://randomall.ru",
+    "DNT": "1",
+    "Sec-GPC": "1",
+    "Connection": "keep-alive",
+    "Referer": "https://randomall.ru/custom/gen/1591",
+    "Cookie": "_ga_XY0LZCZG3D=GS1.1.1735512589.1.0.1735512589.0.0.0; _ga=GA1.1.2077015445.1735512589; _ym_uid=1735512590251421862; _ym_d=1735512590; _ym_isad=1; _ym_visorc=w",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-origin",
+    "TE": "trailers"
     }
 
-    data = {}  # Пустой JSON-объект, так как Content-Length: 2
+    data = {}  # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные
 
     response = requests.post(url, headers=headers, json=data)
 
-    if response.status_code == 200:
-        return response.json()
-    else:
-        return None
+    print(response.status_code)
+    print(response.json())  # Если ответ в формате JSON
+    prin
+    return response
+
+
 
 
 def get_random_residence_time():
@@ -88,6 +93,7 @@ def get_random_residence_time():
         return f"{months} месяцев"
     else:
         return f"{years} лет {months} месяцев"
+
 
 
 @app.get("/")
@@ -105,7 +111,7 @@ async def root():
             "player_cards": []
         }
     )
-    cards["bunker_description"] = get_random_bunker_description()
-    for i in range(5):
-        cards["player_cards"].append(get_random_player_card())
+    # cards["bunker_description"] = get_random_bunker_description()
+    # for i in range(5):
+    #     cards["player_cards"].append(get_random_player_card())
     return cards

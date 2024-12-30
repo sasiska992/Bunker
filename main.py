@@ -2,6 +2,7 @@ import random
 
 from fastapi import FastAPI
 import requests
+import time
 
 app = FastAPI()
 
@@ -74,14 +75,11 @@ def get_random_player_card():
     "TE": "trailers"
     }
 
-    data = {}  # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные
+    data = dict()  # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные
 
     response = requests.post(url, headers=headers, json=data)
 
-    print(response.status_code)
-    print(response.json())  # Если ответ в формате JSON
-    prin
-    return response
+    return response.json()
 
 
 
@@ -111,7 +109,7 @@ async def root():
             "player_cards": []
         }
     )
-    # cards["bunker_description"] = get_random_bunker_description()
-    # for i in range(5):
-    #     cards["player_cards"].append(get_random_player_card())
+    cards["bunker_description"] = get_random_bunker_description()
+    for i in range(5):
+        cards["player_cards"].append(get_random_player_card())
     return cards

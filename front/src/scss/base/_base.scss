@@ -1,0 +1,18 @@
+html {
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+}
+
+body {
+	position: relative;
+	background-color: #fff;
+	color: #000;
+    font-family: "Inter", sans-serif;
+	max-width: 100%;
+}
+
+@font-face {
+    font-family: 'Kenia';
+    src:
+	url('./../fonts/Kenia-Regular.ttf') format('woff2');
+}

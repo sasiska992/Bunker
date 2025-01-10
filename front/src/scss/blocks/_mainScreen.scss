@@ -6,27 +6,6 @@
 
     background: url(./../../public/img/mainImg.jpg) center center / cover no-repeat;
 
-    .logo {
-        padding: 10px 15px;
-        background-color: var(--color-gray);
-        display: flex;
-        column-gap: 16px;
-        align-items: center;
-
-        position: absolute;
-        left: 20px;
-        top: 34px;
-
-        color: rgb(39, 37, 37);
-        font-size: 28px;
-        font-weight: 400;
-        border-radius: 20px;
-
-        img {
-            width: 54px;
-        }
-    }
-
     &-wrapper {
         position: relative;
 
@@ -34,13 +13,13 @@
         justify-content: center;
         column-gap: 110px;
         align-items: center;
+        height: 100%;
     }
 
     .join {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin-top: 100px;
         .txt {
             color: rgba(255, 255, 255, 0.7);
             font-size: 20px;
@@ -71,7 +50,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        row-gap: 20px;
+        row-gap: 40px;
         color: rgb(0, 0, 0);
         font-family: "Kenia";
         font-size: 128px;
@@ -79,14 +58,10 @@
         line-height: 128px;
         text-align: center;
         max-width: 570px;
-
-        img {
-            animation: skull 3s ease-in infinite;
-        }
     }
 
     .create {
-        margin-top: 156px;
+        margin-top: 60px;
     }
 
     .btn {
@@ -106,14 +81,24 @@
     }
 }
 
-@keyframes skull {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.06);
-    }
-    100% {
-        transform: scale(1);
+// Logo
+.logo {
+    padding: 10px 15px;
+    background-color: var(--color-gray);
+    display: flex;
+    column-gap: 16px;
+    align-items: center;
+
+    position: absolute;
+    left: 20px;
+    top: 34px;
+
+    color: rgb(39, 37, 37);
+    font-size: 28px;
+    font-weight: 400;
+    border-radius: 20px;
+
+    img {
+        width: 54px;
     }
 }

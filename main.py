@@ -2,9 +2,23 @@ import random
 
 from fastapi import FastAPI
 import requests
-import time
+import re
+
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_random_bunker_description():
@@ -32,10 +46,15 @@ def get_random_bunker_description():
     data = [string.split("\n\n") for string in result.split("][ ")[1:]]
     bunker_data = data[1]
     catastrophe_data = data[0]
+    game_duration = r"Игра на время( |:) \d+ (минут|минуты)\.?"
+    advanced_game_pattern = r"Продвинутая игра: .*?\.?"
+    catastrophe_description = re.sub(game_duration, "", catastrophe_data[1][2:]).strip()
+    catastrophe_description = re.sub(advanced_game_pattern, "", catastrophe_description).strip()
+    print(catastrophe_data[1][2:])
     bunker_description = {
         "catastrophe": {
             "catastrophe_title": catastrophe_data[0].split("Сценарий катастрофы: ")[1].replace(".", ""),
-            "catastrophe_description": catastrophe_data[1],
+            "catastrophe_description": catastrophe_description,
             "residence_time": catastrophe_data[2].split("\n")[0].replace("- ", ""),
             "additional_information": [info for info in catastrophe_data[2].split("\n")[1:][:2]],
         },
@@ -48,31 +67,31 @@ def get_random_bunker_description():
             "number_of_seats": random.randint(1, 6),  # todo: доделать места исходя от кол-ва игроков
         }
     }
+    print(catastrophe_data[2].split("\n")[0].replace("- ", ""))
     if response.status_code == 200:
         return bunker_description
     else:
         return None
 
 
-
 def get_random_player_card():
     url = "https://randomall.ru/api/gens/1591"
     headers = {
-    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Content-Type": "application/json",
-    "Origin": "https://randomall.ru",
-    "DNT": "1",
-    "Sec-GPC": "1",
-    "Connection": "keep-alive",
-    "Referer": "https://randomall.ru/custom/gen/1591",
-    "Cookie": "_ga_XY0LZCZG3D=GS1.1.1735512589.1.0.1735512589.0.0.0; _ga=GA1.1.2077015445.1735512589; _ym_uid=1735512590251421862; _ym_d=1735512590; _ym_isad=1; _ym_visorc=w",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",
-    "TE": "trailers"
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Content-Type": "application/json",
+        "Origin": "https://randomall.ru",
+        "DNT": "1",
+        "Sec-GPC": "1",
+        "Connection": "keep-alive",
+        "Referer": "https://randomall.ru/custom/gen/1591",
+        "Cookie": "_ga_XY0LZCZG3D=GS1.1.1735512589.1.0.1735512589.0.0.0; _ga=GA1.1.2077015445.1735512589; _ym_uid=1735512590251421862; _ym_d=1735512590; _ym_isad=1; _ym_visorc=w",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "TE": "trailers"
     }
 
     data = dict()  # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные
@@ -82,8 +101,6 @@ def get_random_player_card():
     return response.json()
 
 
-
-
 def get_random_residence_time():
     years = random.randint(0, 20)
     months = random.randint(0, 12)
@@ -91,7 +108,6 @@ def get_random_residence_time():
         return f"{months} месяцев"
     else:
         return f"{years} лет {months} месяцев"
-
 
 
 @app.get("/")

@@ -4,7 +4,16 @@
     overflow-x: hidden;
     position: relative;
 
-    background: url(./../../public/img/mainImg.jpg) center center / cover no-repeat;
+    animation: section 1s ease-in forwards;
+
+    &-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
 
     &-wrapper {
         position: relative;

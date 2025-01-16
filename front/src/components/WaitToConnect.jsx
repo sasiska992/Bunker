@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const ConnectionToGame = ({value, onChange}) => {
+const WaitToConnect = ({value, onChange}) => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
           setLoading(false);
@@ -8,10 +8,6 @@ const ConnectionToGame = ({value, onChange}) => {
     
     const handleclick = () => {
         value = 1;
-        onChange(value);
-    }
-    const goGame = () => {
-        value = 4;
         onChange(value);
     }
 
@@ -51,7 +47,7 @@ const ConnectionToGame = ({value, onChange}) => {
                             <img src="./img/copy.svg" alt="copy" onClick={handleCopyClick}/>
                         </div>
                         <div className="people">Присоединилось 6 / 12</div>
-                        <button onClick={goGame} className="start">Начать игру</button>
+                        <div className="waiting">Дождитесь начала игры</div>
                     </div>
 
                     <button onClick={handleclick} className="return">
@@ -69,4 +65,4 @@ const ConnectionToGame = ({value, onChange}) => {
     );
 };
 
-export default ConnectionToGame;
+export default WaitToConnect;

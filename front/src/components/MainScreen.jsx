@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from "framer-motion";
 
 const MainScreen = ({value, onChange}) => {
     const [loading, setLoading] = useState(true);
@@ -10,16 +9,15 @@ const MainScreen = ({value, onChange}) => {
         value = 2;
         onChange(value);
     }
+    const handlewaiting = () => {
+        value = 3;
+        onChange(value);
+    }
     return (
         <>
             {loading ? "" :
-            <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{duration: 0.5}}
-            >
             <section className='mainScreen'>
+                <img src="./img/mainImg.jpg" alt="image" className='mainScreen-img'/>
                 <div className="logo">
                     Бункер
                     <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
@@ -29,18 +27,17 @@ const MainScreen = ({value, onChange}) => {
                     <div className="join">
                         <input type="text" className="txt" placeholder='Введите код комнаты'/>
                         <div className="line"></div>
-                        <button onClick={handleclick} className="btn">Присоединиться</button>
+                        <button onClick={handlewaiting} className="btn">Присоединиться</button>
                     </div>
                     <div className="scull">
                         <img src="./img/scull.svg" alt="scull" />
                         Cheat to survive
                     </div>
                     <div className="create">
-                        <button className="btn">Создать комнату</button>
+                        <button onClick={handleclick} className="btn">Создать комнату</button>
                     </div>
                 </div>
-            </section>
-            </motion.div>}
+            </section>}
         </>
     );
 };

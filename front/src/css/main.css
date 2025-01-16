@@ -126,7 +126,17 @@ body {
   width: 100%;
   overflow-x: hidden;
   position: relative;
-  background: url(./../../public/img/mainImg.jpg) center center/cover no-repeat;
+  -webkit-animation: section 1s ease-in forwards;
+          animation: section 1s ease-in forwards;
+}
+.mainScreen-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .mainScreen-wrapper {
   position: relative;
@@ -268,7 +278,6 @@ body {
   position: relative;
   height: 100vh;
   width: 100%;
-  background: url(./../../public/img/connectionImg.png) center center/cover no-repeat;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -279,8 +288,20 @@ body {
       -ms-flex-align: center;
           align-items: center;
   overflow: hidden;
+  -webkit-animation: section 1s ease-in forwards;
+          animation: section 1s ease-in forwards;
+}
+.connect-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .connect-info {
+  position: relative;
   border-radius: 40px;
   background: rgba(0, 0, 0, 0.8);
   padding: 87px 0;
@@ -327,7 +348,67 @@ body {
   position: absolute;
   bottom: 0;
 }
-.connect .return {
+.connect-info .people {
+  margin-top: 38px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 400;
+}
+.connect-info .start {
+  border: 3px solid rgba(25, 135, 84, 0.7);
+  border-radius: 15px;
+  background: transparent;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 50px;
+  padding: 17px 30px;
+  -webkit-transition: background 0.15s ease-in;
+  transition: background 0.15s ease-in;
+}
+.connect-info .start:hover {
+  background: rgba(25, 135, 84, 0.7);
+}
+.connect-info .waiting {
+  margin-top: 50px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-weight: 400;
+  border-top: 3px solid rgb(255, 255, 255);
+  border-bottom: 3px solid rgb(255, 255, 255);
+  width: 287px;
+  padding: 7px 0;
+  text-align: center;
+}
+.connect .copied {
+  position: absolute;
+  bottom: -50px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+.connect .copied-active {
+  -webkit-animation: copy 1.5s ease-in-out forwards;
+          animation: copy 1.5s ease-in-out forwards;
+}
+
+.section-h2 {
+  color: rgb(0, 0, 0);
+  font-size: 28px;
+  font-weight: 400;
+  border-radius: 30px;
+  background: rgb(217, 217, 217);
+  padding: 12px 32px;
+  display: inline-block;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.return {
   padding: 8px 20px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -343,11 +424,17 @@ body {
   position: absolute;
   bottom: 45px;
   left: 45px;
+  -webkit-transition: border-radius 0.3s ease-in;
+  transition: border-radius 0.3s ease-in;
 }
-.connect .return img {
+.return img {
   width: 40px;
 }
-.connect .info {
+.return:hover {
+  border-radius: 10px;
+}
+
+.info {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -365,35 +452,8 @@ body {
   bottom: 45px;
   right: 45px;
 }
-.connect .info img {
+.info img {
   width: 50px;
-}
-.connect .copied {
-  position: absolute;
-  bottom: -50px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 20px;
-}
-.connect .copied-active {
-  -webkit-animation: copy 2s ease-in-out forwards;
-          animation: copy 2s ease-in-out forwards;
-}
-
-.section-h2 {
-  color: rgb(0, 0, 0);
-  font-size: 28px;
-  font-weight: 400;
-  border-radius: 30px;
-  background: rgb(217, 217, 217);
-  padding: 12px 32px;
-  display: inline-block;
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
 }
 
 @-webkit-keyframes copy {
@@ -417,6 +477,22 @@ body {
   }
   100% {
     bottom: -50px;
+  }
+}
+@-webkit-keyframes section {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes section {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 .preloader-container {

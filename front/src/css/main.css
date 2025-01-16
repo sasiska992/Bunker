@@ -112,6 +112,10 @@ body {
   font-family: "Kenia";
   src: url("./../fonts/Kenia-Regular.ttf") format("woff2");
 }
+@font-face {
+  font-family: "Roadkill";
+  src: url("./../fonts/Roadkill Heavy.otf") format("woff2");
+}
 .none {
   display: none !important;
 }
@@ -126,8 +130,8 @@ body {
   width: 100%;
   overflow-x: hidden;
   position: relative;
-  -webkit-animation: section 1s ease-in forwards;
-          animation: section 1s ease-in forwards;
+  -webkit-animation: section 0.5s ease-in forwards;
+          animation: section 0.5s ease-in forwards;
 }
 .mainScreen-img {
   position: absolute;
@@ -171,36 +175,42 @@ body {
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Roadkill";
 }
 .mainScreen .join .txt::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Inter";
 }
 .mainScreen .join .txt::-moz-placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Inter";
 }
 .mainScreen .join .txt:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Inter";
 }
 .mainScreen .join .txt::-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Inter";
 }
 .mainScreen .join .txt::placeholder {
   color: rgba(255, 255, 255, 0.7);
   font-size: 20px;
   font-weight: 400;
   text-align: center;
+  font-family: "Inter";
 }
 .mainScreen .join .line {
   height: 3px;
@@ -251,27 +261,27 @@ body {
 }
 
 .logo {
-  padding: 10px 15px;
+  padding: 8px 12px;
   background-color: var(--color-gray);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-column-gap: 16px;
-     -moz-column-gap: 16px;
-          column-gap: 16px;
+  -webkit-column-gap: 10px;
+     -moz-column-gap: 10px;
+          column-gap: 10px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   position: absolute;
-  left: 20px;
-  top: 34px;
+  left: 25px;
+  top: 25px;
   color: rgb(39, 37, 37);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 400;
   border-radius: 20px;
 }
 .logo img {
-  width: 54px;
+  width: 45px;
 }
 
 .connect {
@@ -288,8 +298,8 @@ body {
       -ms-flex-align: center;
           align-items: center;
   overflow: hidden;
-  -webkit-animation: section 1s ease-in forwards;
-          animation: section 1s ease-in forwards;
+  -webkit-animation: section 0.5s ease-in forwards;
+          animation: section 0.5s ease-in forwards;
 }
 .connect-img {
   position: absolute;
@@ -334,10 +344,20 @@ body {
   text-align: center;
   padding-bottom: 14px;
 }
-.connect-info .link img {
+.connect-info .link .copy {
   position: absolute;
   right: 0;
   cursor: pointer;
+  -webkit-transform: rotateY(0deg);
+          transform: rotateY(0deg);
+  -webkit-transition: -webkit-transform 0.15s ease-in;
+  transition: -webkit-transform 0.15s ease-in;
+  transition: transform 0.15s ease-in;
+  transition: transform 0.15s ease-in, -webkit-transform 0.15s ease-in;
+}
+.connect-info .link .copy-active {
+  -webkit-transform: rotateY(90deg);
+          transform: rotateY(90deg);
 }
 .connect-info .link:after {
   content: "";
@@ -347,6 +367,59 @@ body {
   background: #fff;
   position: absolute;
   bottom: 0;
+}
+.connect-info .link .checkmark {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -webkit-transform: translateY(calc(-50% - 7px)) rotateY(90deg);
+          transform: translateY(calc(-50% - 7px)) rotateY(90deg);
+  -webkit-transition: -webkit-transform 0.15s ease-in;
+  transition: -webkit-transform 0.15s ease-in;
+  transition: transform 0.15s ease-in;
+  transition: transform 0.15s ease-in, -webkit-transform 0.15s ease-in;
+  -webkit-transition-delay: 0.15s;
+          transition-delay: 0.15s;
+  cursor: pointer;
+}
+.connect-info .link .checkmark:after {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 15px;
+  border-radius: 8px;
+  background: transparent;
+  position: absolute;
+  top: 55%;
+  left: 8%;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+.connect-info .link .checkmark:before {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 30px;
+  border-radius: 8px;
+  background: transparent;
+  position: absolute;
+  top: 45%;
+  left: 26%;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+.connect-info .link .checkmark-active {
+  -webkit-transform: translateY(calc(-50% - 7px)) rotateY(0deg);
+          transform: translateY(calc(-50% - 7px)) rotateY(0deg);
+}
+.connect-info .link .checkmark-active:after, .connect-info .link .checkmark-active:before {
+  background: var(--color-green);
 }
 .connect-info .people {
   margin-top: 38px;
@@ -379,18 +452,6 @@ body {
   width: 287px;
   padding: 7px 0;
   text-align: center;
-}
-.connect .copied {
-  position: absolute;
-  bottom: -50px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 20px;
-}
-.connect .copied-active {
-  -webkit-animation: copy 1.5s ease-in-out forwards;
-          animation: copy 1.5s ease-in-out forwards;
 }
 
 .section-h2 {

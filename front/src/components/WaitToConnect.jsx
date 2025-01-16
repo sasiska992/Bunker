@@ -12,7 +12,7 @@ const WaitToConnect = ({value, onChange}) => {
     }
 
     const linkRef = useRef(null);
-    const [copy, setCopy] = useState(false);
+    const [check, setCheck] = useState(false);
 
     const handleCopyClick = async () => {
         if (linkRef.current) {
@@ -23,10 +23,7 @@ const WaitToConnect = ({value, onChange}) => {
             console.error('Не удалось скопировать текст: ', err);
         }
         }
-        setCopy(true);
-        setTimeout(() => {
-            setCopy(false);
-        }, 1500); 
+        setCheck(true); 
     };
     return (
         <>
@@ -44,7 +41,8 @@ const WaitToConnect = ({value, onChange}) => {
                         <h2>Пригласите пользователя по ссылке ниже</h2>
                         <div className="link" ref={linkRef}>
                             Бункер-ёпта?invite=1a2b3c4d5
-                            <img src="./img/copy.svg" alt="copy" onClick={handleCopyClick}/>
+                            <img src="./img/copy.svg" alt="copy" onClick={handleCopyClick} className={!check ? "copy" : "copy copy-active"}/>
+                            <div onClick={handleCopyClick} className={!check ? "checkmark" : "checkmark checkmark-active"}></div>
                         </div>
                         <div className="people">Присоединилось 6 / 12</div>
                         <div className="waiting">Дождитесь начала игры</div>
@@ -56,10 +54,6 @@ const WaitToConnect = ({value, onChange}) => {
                     <button className="info">
                         <img src="./img/info.svg" alt="info" />
                     </button>
-
-                    <div className={!copy ? "copied" : "copied copied-active"}>
-                        Скопировано!
-                    </div>
                 </section>}
         </>
     );

@@ -8,7 +8,7 @@
     align-items: center;
     overflow: hidden;
 
-    animation: section 1s ease-in forwards;
+    animation: section 0.5s ease-in forwards;
 
     &-img {
         position: absolute;
@@ -49,10 +49,16 @@
             text-align: center;
             padding-bottom: 14px;
 
-            img {
+            .copy {
                 position: absolute;
                 right: 0;
                 cursor: pointer;
+                transform: rotateY(0deg);
+                transition: transform 0.15s ease-in;
+
+                &-active {
+                    transform: rotateY(90deg);
+                }
             }
 
             &:after {
@@ -64,6 +70,52 @@
 
                 position: absolute;
                 bottom: 0;
+            }
+
+            .checkmark {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(calc(-50% - 7px)) rotateY(90deg);
+                transition: transform 0.15s ease-in;
+                transition-delay: 0.15s;
+                cursor: pointer;
+
+                &:after {
+                    content: "";
+                    display: block;
+                    height: 4px;
+                    width: 15px;
+                    border-radius: 8px;
+                    background: transparent;
+                    position: absolute;
+                    top: 55%;
+                    left: 8%;
+                    transform: rotate(45deg);
+                    transition: all 0.2s ease-in;
+                }
+                &:before {
+                    content: "";
+                    display: block;
+                    height: 4px;
+                    width: 30px;
+                    border-radius: 8px;
+                    background: transparent;
+                    position: absolute;
+                    top: 45%;
+                    left: 26%;
+                    transform: rotate(-45deg);
+                    transition: all 0.2s ease-in;
+                }
+            }
+
+            .checkmark-active {
+                transform: translateY(calc(-50% - 7px)) rotateY(0deg);
+                &:after, &:before {
+                    background: var(--color-green);
+                }
             }
         }
 
@@ -101,19 +153,6 @@
             width: 287px;
             padding: 7px 0;
             text-align: center;
-        }
-    }
-
-    .copied {
-        position: absolute;
-        bottom: -50px;
-        background: rgba(0, 0, 0, 0.8);
-        padding: 12px 24px;
-        border-radius: 10px;
-        font-size: 20px;
-
-        &-active {
-            animation: copy 1.5s ease-in-out forwards;
         }
     }
 }

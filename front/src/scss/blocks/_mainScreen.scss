@@ -4,7 +4,7 @@
     overflow-x: hidden;
     position: relative;
 
-    animation: section 1s ease-in forwards;
+    animation: section 0.5s ease-in forwards;
 
     &-img {
         position: absolute;
@@ -34,12 +34,14 @@
             font-size: 20px;
             font-weight: 400;
             text-align: center;
+            font-family: 'Roadkill';
 
             &::placeholder {
                 color: rgba(255, 255, 255, 0.7);
                 font-size: 20px;
                 font-weight: 400;
                 text-align: center;
+                font-family: "Inter";
             }
         }
 
@@ -92,22 +94,22 @@
 
 // Logo
 .logo {
-    padding: 10px 15px;
+    padding: 8px 12px;
     background-color: var(--color-gray);
     display: flex;
-    column-gap: 16px;
+    column-gap: 10px;
     align-items: center;
 
     position: absolute;
-    left: 20px;
-    top: 34px;
+    left: 25px;
+    top: 25px;
 
     color: rgb(39, 37, 37);
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 400;
     border-radius: 20px;
 
     img {
-        width: 54px;
+        width: 45px;
     }
 }

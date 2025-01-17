@@ -50,7 +50,6 @@ def get_random_bunker_description():
     advanced_game_pattern = r"Продвинутая игра: .*?\.?"
     catastrophe_description = re.sub(game_duration, "", catastrophe_data[1][2:]).strip()
     catastrophe_description = re.sub(advanced_game_pattern, "", catastrophe_description).strip()
-    print(catastrophe_data[1][2:])
     bunker_description = {
         "catastrophe": {
             "catastrophe_title": catastrophe_data[0].split("Сценарий катастрофы: ")[1].replace(".", ""),
@@ -67,7 +66,7 @@ def get_random_bunker_description():
             "number_of_seats": random.randint(1, 6),  # todo: доделать места исходя от кол-ва игроков
         }
     }
-    print(catastrophe_data[2].split("\n")[0].replace("- ", ""))
+    print(bunker_description.get("bunker"))
     if response.status_code == 200:
         return bunker_description
     else:

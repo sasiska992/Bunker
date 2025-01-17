@@ -6,15 +6,6 @@
 
     animation: section 0.5s ease-in forwards;
 
-    &-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-
     &-wrapper {
         position: relative;
 
@@ -89,27 +80,5 @@
         &:hover {
             background: transparent;
         }
-    }
-}
-
-// Logo
-.logo {
-    padding: 8px 12px;
-    background-color: var(--color-gray);
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-
-    position: absolute;
-    left: 25px;
-    top: 25px;
-
-    color: rgb(39, 37, 37);
-    font-size: 22px;
-    font-weight: 400;
-    border-radius: 20px;
-
-    img {
-        width: 45px;
     }
 }

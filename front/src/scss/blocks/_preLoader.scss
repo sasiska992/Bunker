@@ -3,19 +3,20 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(to left, #3a4450, #1e242c); 
+    background: linear-gradient(to left, #000000, #1e242c); 
+    animation: section 0.4s ease-in forwards;
   }
   
   .preloader {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
   }
   
   .circle {
-    width: 20px;
-    height: 20px;
-    background-color: #3498db;
+    width: 22px;
+    height: 22px;
+    background-color: var(--color-orange);
     border-radius: 50%;
     position: absolute;
     animation: bounce 1.5s infinite ease-in-out;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Logo from './modules/Logo'
 
 const MainScreen = ({value, onChange}) => {
     const [loading, setLoading] = useState(true);
@@ -17,12 +18,8 @@ const MainScreen = ({value, onChange}) => {
         <>
             {loading ? "" :
             <section className='mainScreen'>
-                <img src="./img/mainImg.jpg" alt="image" className='mainScreen-img'/>
-                <div className="logo">
-                    Бункер
-                    <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
-                </div>
-
+                <img src="./img/mainImg.jpg" alt="image" className='section-img'/>
+                <Logo/>
                 <div className="mainScreen-wrapper">
                     <div className="join">
                         <input type="text" className="txt" placeholder='Введите код комнаты'/>

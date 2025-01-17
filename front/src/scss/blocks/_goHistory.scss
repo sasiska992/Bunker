@@ -1,0 +1,60 @@
+.history {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    animation: section 0.5s ease-in forwards;
+
+    .darkFon {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 40px;
+        text-align: left;
+        padding: 50px;
+    }
+}
+
+.next {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    background: rgb(217, 217, 217);
+
+    position: absolute;
+    bottom: 45px;
+    right: 45px;
+    transition: border-radius 0.3s ease-in;
+
+    &:hover {
+        border-radius: 10px;
+    }
+}
+
+.prev {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    background: rgb(217, 217, 217);
+
+    position: absolute;
+    bottom: 45px;
+    left: 45px;
+    transition: border-radius 0.3s ease-in;
+
+    img {
+        transform: rotate(180deg);
+    }
+
+    &:hover {
+        border-radius: 10px;
+    }
+}

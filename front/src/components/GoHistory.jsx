@@ -1,48 +1,40 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import Logo from './modules/Logo';
 
-function GoHistory() {
-  const [data, setData] = useState(null);
+function GoHistory({firstValue, firstOnChange, value, onChange}) {
 
-  useEffect(() => {
-    axios.get("http://127.0.0.1:8000/")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error("Ошибка при запросе к API:", error);
-      });
-  }, []);
-
-
-  if (!data) {
-    console.log("Данные не получены");
-    console.log(data);
-    return <div>Loading...</div>
+  const handleclick = () => {
+    firstValue = 1;
+    firstOnChange(firstValue);
   }
-  else
+
+  const handleNext = () => {
+    value = 2;
+    onChange(value);
+  }
+
   return (
-    <div>
-      <h1>Описание Бункера</h1>
-      <h2>Катастрофа</h2>
-      <p><strong>Название:</strong> {data.bunker_description.catastrophe.catastrophe_title}</p>
-      <p><strong>Описание:</strong> {data.bunker_description.catastrophe.catastrophe_description}</p>
-      <p><strong>Время проживания:</strong> {data.bunker_description.catastrophe.residence_time}</p>
-
-      <h2>Бункер</h2>
-      <p><strong>Название:</strong> {data.bunker_description.bunker.bunker_title}</p>
-      <p><strong>Описание:</strong> {data.bunker_description.bunker.bunker_description}</p>
-      <p><strong>Размер:</strong> {data.bunker_description.bunker.size} м²</p>
-      <p><strong>Количество мест:</strong> {data.bunker_description.bunker.number_of_seats}</p>
-
-      <h2>Игроки</h2>
-      {data.player_cards.map((player, index) => (
-        <div key={index}>
-          <h3>Игрок {index + 1}</h3>
-          <pre>{JSON.stringify(player, null, 2)}</pre>
+    <section className="history">
+        <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+        <Logo/>
+        <div className="section-h2">Начало моей истории</div>
+        <div className="darkFon">
+          На Земле надвигалась катастрофа, и, возможно, она уже началась. В панике, как и большинство людей, я искал укрытие, чтобы спасти свою жизнь. Каждый шаг был полон опасности, и в сердце моем росло чувство безысходности. Вдруг я заметил группу людей вдалеке. Страх сковывал меня: подойти к ним или остаться в одиночестве? Но терять было нечего, и я решился.
+          <br />
+          <br />
+          С каждым шагом к ним сердце колотилось все сильнее. И вот, когда я приблизился, меня охватило чувство невероятного везения — они стояли у входа в бункер, последнюю надежду на спасение! Эти люди, как и я, искали выживших, и вокруг них был разбит временный лагерь. Они встретили меня с открытыми руками, но в воздухе витала напряженность: кто-то должен был решить, кто достоин попасть внутрь, а кто — обречен на гибель.
+          <br />
+          <br />
+          Вскоре все собрались в круг, и началось обсуждение. Я знал, что не идеальный кандитат на “выживание”. От этого мне становилось всё страшнее и страшнее...
         </div>
-      ))}
-    </div>
+
+        <button onClick={handleclick} className="return">
+            <img src="./img/return.svg" alt="return" />
+        </button>
+
+        <button onClick={handleNext} className="next">
+            <img src="./img/arrow.svg" alt="next" />
+        </button>
+    </section>
   );
 }
 

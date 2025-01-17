@@ -33,7 +33,7 @@ const ConnectionToGame = ({value, onChange}) => {
         <>
             {loading ? "" :
                 <section className='connect'>
-                    <img src="./img/connectionImg.png" alt="image" className='connect-img'/>
+                    <img src="./img/connectionImg.png" alt="image" className='section-img'/>
                     <div className="logo">
                         Бункер
                         <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
@@ -41,7 +41,7 @@ const ConnectionToGame = ({value, onChange}) => {
 
                     <h2 className="section-h2">Ожидание игроков</h2>
 
-                    <div className="connect-info">
+                    <div className="darkFon connect-info">
                         <h2>Пригласите пользователя по ссылке ниже</h2>
                         <div className="link" ref={linkRef}>
                             Бункер-ёпта?invite=1a2b3c4d5

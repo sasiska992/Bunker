@@ -1,0 +1,33 @@
+.tab {
+    border-radius: 10px;
+    background: rgb(222, 213, 202);
+    width: 187px;
+    height: 42px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: 400;
+
+    border: 3px rgb(222, 213, 202) solid;
+    transition: all 0.1s ease-in;
+
+    &:hover {
+        background: transparent;
+        color: rgb(222, 213, 202);
+    }
+}
+
+.tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 34px;
+    margin: 32px auto;
+
+    max-width: 1322px;
+    padding: 0 15px;
+}

@@ -1,4 +1,4 @@
-.catastrophe {
+.catastrophe, .bunker {
     position: relative;
     height: 100vh;
     width: 100%;
@@ -57,7 +57,7 @@
         row-gap: 50px;
     }
 
-    .time, .inform {
+    .clarification, .inform {
         color: rgb(0, 0, 0);
         font-size: 18px;
         font-weight: 400;

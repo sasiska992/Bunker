@@ -10,9 +10,12 @@
 @import "./blocks/connectionToGame";
 @import "./blocks/goHistory";
 @import "./blocks/goCatactrophe";
+@import "./blocks/goBunker";
+@import "./blocks/goGame";
 
 //loader
 @import "./blocks/preLoader";
 
-//logo
+//modules
 @import "./blocks/logo";
+@import "./blocks/tab";

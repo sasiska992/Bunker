@@ -3,7 +3,7 @@ import Logo from './modules/Logo';
 
 const GoCatastrophe = ({value, onChange}) => {
     const handleNext = () => {
-        value = 2;
+        value = 3;
         onChange(value);
     }
     const handlePrev = () => {
@@ -22,7 +22,7 @@ const GoCatastrophe = ({value, onChange}) => {
                     Ещё несколько лет назад государство начало строить различные вышки и  установки. Никто не знал зачем они, но мы знали… Нас обо всём  предупредили за несколько часов до начала их функционирования. Мы успели укрыться под бетонным укрытием и смастерить себе что-то по типу защиты  для головы. На улице уже начинают ходить люди-зомби, которые делают всё что им скажут.
                 </div>
                 <div className="details">
-                    <div className="time">
+                    <div className="clarification">
                         <img src="./img/time.svg" alt="icon" />
                         До решения загадки аномальных полей учеными 9 лет.
                     </div>

@@ -13,6 +13,20 @@
         overflow-x: hidden;
 
         animation: section 0.5s ease-in forwards;
+
+        .darkFon {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            row-gap: 54px;
+            column-gap: 48px;
+            flex-wrap: wrap;
+            max-width: 1770px;
+
+            padding: 30px 20px;
+
+            margin-top: 100px;
+        }
     }
 
     .sequel {

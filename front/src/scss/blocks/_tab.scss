@@ -16,7 +16,7 @@
     transition: all 0.1s ease-in;
 
     &:hover {
-        background: transparent;
+        background: rgba(0,0,0, 0.5);
         color: rgb(222, 213, 202);
     }
 }
@@ -26,8 +26,33 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 34px;
-    margin: 32px auto;
+    margin: 0 auto;
 
     max-width: 1322px;
     padding: 0 15px;
+
+    position: relative;
+}
+
+.tabs-cards {
+    position: relative;
+    padding: 32px;
+}
+
+.personCard-wrapper {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 32px;
+}
+
+.personCard-wrapper > .darkFon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    row-gap: 54px;
+    column-gap: 48px;
+    flex-wrap: wrap;
+    max-width: 1770px;
+
+    padding: 30px 20px;
 }

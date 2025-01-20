@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from './modules/Logo';
 import TabsWithCards from './modules/TabsWithCards';
+import MyCards from './modules/MyCards';
 
 const GoGame = ({value, onChange}) => {
     const handleNext = () => {
@@ -18,7 +19,7 @@ const GoGame = ({value, onChange}) => {
                 <Logo/>
                 <div className="section-h2">Карточки игрока</div>
                 <div className="darkFon">
-                    
+                    <MyCards />
                 </div>
             </div>
             <div className="sequel">
@@ -28,7 +29,7 @@ const GoGame = ({value, onChange}) => {
                 Ситуация накалилась до предела. Я знал, что выбор, который нам предстояло сделать, определит не только нашу судьбу, но и судьбу всего человечества. В этот момент я понял: в бункере не только искали спасение, но и формировалась новая реальность, где каждый шаг мог стать решающим.
             </div>
             <div className="tabs-cards">
-                <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+                <img src="./img/tabsImg.png" alt="image" className='section-img'/>
                 <TabsWithCards/>
             </div>
         </section>

@@ -770,6 +770,27 @@ body {
   -webkit-animation: section 0.5s ease-in forwards;
           animation: section 0.5s ease-in forwards;
 }
+.game .cards .darkFon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  row-gap: 54px;
+  -webkit-column-gap: 48px;
+     -moz-column-gap: 48px;
+          column-gap: 48px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-width: 1770px;
+  padding: 30px 20px;
+  margin-top: 100px;
+}
 .game .sequel {
   padding: 50px 90px;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(31.5%, rgb(10, 10, 12)), to(rgb(0, 64, 86)));
@@ -779,6 +800,38 @@ body {
   font-weight: 400;
   line-height: 40px;
   text-align: left;
+}
+
+.personCard {
+  width: 212px;
+  height: 320px;
+  border-radius: 20px;
+  background: rgb(222, 213, 202);
+  text-align: center;
+  padding: 20px 0;
+  -webkit-animation: section 0.2s ease-in forwards;
+          animation: section 0.2s ease-in forwards;
+}
+.personCard .category {
+  color: rgb(0, 0, 0);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.personCard .line {
+  width: 100%;
+  height: 3px;
+  background: #000;
+}
+.personCard img {
+  height: 100px;
+  margin: 48px auto;
+}
+.personCard .title {
+  color: rgb(0, 0, 0);
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 12px;
 }
 
 .preloader-container {
@@ -911,7 +964,7 @@ body {
   transition: all 0.1s ease-in;
 }
 .tab:hover {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.5);
   color: rgb(222, 213, 202);
 }
 
@@ -925,7 +978,40 @@ body {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   gap: 34px;
-  margin: 32px auto;
+  margin: 0 auto;
   max-width: 1322px;
   padding: 0 15px;
+  position: relative;
+}
+
+.tabs-cards {
+  position: relative;
+  padding: 32px;
+}
+
+.personCard-wrapper {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 32px;
+}
+
+.personCard-wrapper > .darkFon {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  row-gap: 54px;
+  -webkit-column-gap: 48px;
+     -moz-column-gap: 48px;
+          column-gap: 48px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-width: 1770px;
+  padding: 30px 20px;
 }/*# sourceMappingURL=main.css.map */

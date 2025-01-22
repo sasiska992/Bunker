@@ -2,6 +2,12 @@
     position: relative;
     height: 100%;
     width: 100%;
+    animation: section 0.5s ease-in forwards;
+
+    .section-h2 {
+        top: 25px;
+    }
+
     .cards {
         position: relative;
         height: 100vh;
@@ -24,8 +30,35 @@
             max-width: 1770px;
 
             padding: 30px 20px;
+        }
 
-            margin-top: 100px;
+        .Down {
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .down {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: 320px;
+            height: 8px;
+            background: var(--color-beige);
+            border-radius: 6px;
+
+            animation: line 2.5s linear infinite;
+        }
+
+        .prev {
+            right: 25px;
+            top: 25px;
+            left: auto;
+            bottom: auto;
         }
     }
 
@@ -38,5 +71,17 @@
         font-weight: 400;
         line-height: 40px;
         text-align: left;
+    }
+}
+
+@keyframes line {
+    0% {
+        width: 300px;
+    }
+    50% {
+        width: 340px;
+    }
+    100% {
+        width: 300px;
     }
 }

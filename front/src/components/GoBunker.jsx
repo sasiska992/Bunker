@@ -1,7 +1,14 @@
 import React from 'react';
 import Logo from './modules/Logo';
+import PreLoader from './modules/PreLoader';
 
-const GoBunker = ({value, onChange}) => {
+const GoBunker = ({value, onChange, bunkerData}) => {
+
+    const renderBlocks = () => {
+        return Array.from({ length: bunkerData.number_of_seats }, (_, index) => (
+            <div className="site-wrap"><img src="./img/wheel-chair.png" alt="site" /></div>
+        ));
+    };
     const handleNext = () => {
         value = 4;
         onChange(value);
@@ -10,14 +17,17 @@ const GoBunker = ({value, onChange}) => {
         value = 2;
         onChange(value);
     }
+    if(!bunkerData)
+        return <div>Error</div>
+
     return (
         <section className="bunker">
         <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
         <Logo/>
-        <div className="section-h2">Проклятый подвал</div>
+        <div className="section-h2">{bunkerData.bunker_title}</div>
         <div className="darkFon darkFon15">
             <div className="descr">
-                Один из городских подвалов, мы даже не знаем что за здание над ним, но  кажется здесь что то не так, как то не дружелюбно здесь, не покидает  ощущение что здесь кто то есть. Ладно, сейчас нет времени решать, надо  оставаться, но поместятся не все.
+                {bunkerData.bunker_description}
             </div>
         </div>
         <div className="darkFon">
@@ -25,32 +35,37 @@ const GoBunker = ({value, onChange}) => {
                 <div className="details">
                     <div className="inform">
                         <img src="./img/inform.svg" alt="icon" />
-                        - До отключения установок 5 лет. <br />
-                        - Велик шанс быть зомбированным на поверхности. <br />
-                        - Ресурсы достать сложно.
+                        {bunkerData.additional_information && bunkerData.additional_information.map((info, index) => (
+                            <React.Fragment key={index}>
+                                - {info} <br />
+                            </React.Fragment>
+                        ))}
                     </div>
                     <div className="inform">
                         <img src="./img/equipment.svg" alt="icon" />
-                        Убежище оборудовано: <br />
-                        - Трансформаторная комната и аварийная динамо-машина. <br />
-                        - Старый и ржавый санузел. <br />
-                        - Комната с пентаграммами и атрибутикой культа. <br />
+                        {bunkerData.tools && bunkerData.tools.map((info, index) => (
+                            <React.Fragment key={index}>
+                                - {info} <br />
+                            </React.Fragment>
+                        ))}
                     </div>
                 </div>
                 <img src="./img/radiation.svg" alt="icon" className='radiation' />
                 <div className="points">
                     <div className="clarification">
-                        <img src="./img/live.svg" alt="icon" />
-                        <div className="">
-                            В бункере живёт <br />
-                            Димон
+                        <img src="./img/chair.png" alt="icon" />
+                        <div className="chairs">
+                            Количество мест <br />
+                            <div className="kol">
+                                {renderBlocks()}
+                            </div>
                         </div>
                     </div>
                     <div className="clarification">
                         <img src="./img/size.svg" alt="icon"  style={{width: 55}}/>
                         <div className="">
                             Размер бункера <br />
-                            100м
+                            {bunkerData.size}м
                         </div>
                     </div>
                     <div className="clarification">
@@ -62,7 +77,6 @@ const GoBunker = ({value, onChange}) => {
                     </div>
                 </div>
             </div>
-            <div className="sites">Количество мест: 5</div>
         </div>
 
         <button onClick={handlePrev} className="prev">

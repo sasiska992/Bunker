@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from './modules/Logo';
 
-const GoCatastrophe = ({value, onChange}) => {
+const GoCatastrophe = ({value, onChange, catastropheData}) => {
+
     const handleNext = () => {
         value = 3;
         onChange(value);
@@ -10,26 +11,34 @@ const GoCatastrophe = ({value, onChange}) => {
         value = 1;
         onChange(value);
     }
+
+    if (!catastropheData) {
+        return <div>Error</div>
+    }
+
     return (
         <section className="catastrophe">
         <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
         <Logo/>
         <div className="section-h2">Катастрофа</div>
         <div className="darkFon">
-            <div className="darkFon-h2">«Выжигатель мозгов»</div>
+            <div className="darkFon-h2">«{catastropheData.catastrophe_title}»</div>
             <div className="darkFon-wrapper">
                 <div className="txt">
-                    Ещё несколько лет назад государство начало строить различные вышки и  установки. Никто не знал зачем они, но мы знали… Нас обо всём  предупредили за несколько часов до начала их функционирования. Мы успели укрыться под бетонным укрытием и смастерить себе что-то по типу защиты  для головы. На улице уже начинают ходить люди-зомби, которые делают всё что им скажут.
+                    {catastropheData.catastrophe_description}
                 </div>
                 <div className="details">
                     <div className="clarification">
                         <img src="./img/time.svg" alt="icon" />
-                        До решения загадки аномальных полей учеными 9 лет.
+                        Время до решения: <br /> {catastropheData.residence_time}
                     </div>
                     <div className="inform">
                         <img src="./img/inform.svg" alt="icon" />
-                        - Вне убежища происходят странные вещи: телепортации, исчезновения, перемещения, получение повреждений и так далее. <br />
-                        - Электроника часто ведёт себя не нормально и отключается.
+                        {catastropheData.additional_information && catastropheData.additional_information.map((info, index) => (
+                            <React.Fragment key={index}>
+                                - {info} <br />
+                            </React.Fragment>
+                        ))}
                     </div>
                 </div>
             </div>

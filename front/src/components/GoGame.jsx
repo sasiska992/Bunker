@@ -4,10 +4,6 @@ import TabsWithCards from './modules/TabsWithCards';
 import MyCards from './modules/MyCards';
 
 const GoGame = ({value, onChange}) => {
-    const handleNext = () => {
-        value = 4;
-        onChange(value);
-    }
     const handlePrev = () => {
         value = 3;
         onChange(value);
@@ -21,6 +17,13 @@ const GoGame = ({value, onChange}) => {
                 <div className="darkFon">
                     <MyCards />
                 </div>
+                <button onClick={handlePrev} className="prev">
+                    <img src="./img/arrow.svg" alt="next" />
+                </button>
+                <a href="#!" className="Down">
+                    <img src="./img/down.png" alt="icon" />
+                </a>
+                <a href="#!" className="down"></a>
             </div>
             <div className="sequel">
                 В кругу люди начали обсуждать, кто из них должен войти в бункер. Каждый из них был полон надежды, но и страха — страха быть отвергнутым, страха потерять шанс на спасение. Я стоял в стороне, прислушиваясь к их голосам, и чувствовал, как напряжение нарастает. <br />

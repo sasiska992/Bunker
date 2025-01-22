@@ -19,7 +19,7 @@ const MyCards = () => {
     return (
         <>
             {data.map((card) => (
-                <PersonCard key={card.id} category={card.category} title={card.title} />
+                <PersonCard key={card.id} category={card.category} title={card.title} child={1} />
             ))}
         </>
     );

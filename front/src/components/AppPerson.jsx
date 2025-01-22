@@ -1,42 +1,38 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import PreLoader from './modules/PreLoader';
 import GoHistory from './GoHistory';
 import GoCatastrophe from "./GoCatastrophe";
 import GoBunker from "./GoBunker";
 import GoGame from "./GoGame";
+import backendData from './../jsons/backend_data.json';
+import PreLoader from "./modules/PreLoader";
 
 const AppPerson = ({value, onChange}) => {
-    const [data, setData] = useState(null);
     const [block, setBlock] = useState(1);
 
-          {/* <p><strong>Название:</strong> {data.catastrophe_title}</p>
-      <p><strong>Описание:</strong> {data.catastrophe_description}</p>
-      <p><strong>Время проживания:</strong> {data.residence_time}</p> */}
+    const [catastropheData, setCatastropheData] = useState(null);
+    const [bunkerData, setBunkerData] = useState(null);
+    useEffect(() => {
+        if (backendData && backendData.length > 0) {
+            const randomIndex = Math.floor(Math.random() * backendData.length);
+            const selectedCatastrophe = backendData[randomIndex].catastrophe;
+            setCatastropheData(selectedCatastrophe);
 
-    // useEffect(() => {
-    //     axios.get("http://127.0.0.1:8000/")
-    //     .then((response) => {
-    //         setData(response.data);
-    //     })
-    //     .catch((error) => {
-    //         console.error("Ошибка при запросе к API:", error);
-    //     });
-    // }, []);
+            const selectedBunker = backendData[randomIndex].bunker;
+            setBunkerData(selectedBunker);
+        }
+    }, []);
 
+    if(!bunkerData)
+        return <PreLoader/>
 
-    // if (!data) {
-    //     return <PreLoader/>
-    // }
-    // else
-        return (
-            <>
-                {block == 1 ? <GoHistory firstValue={value} firstOnChange={onChange} value={block} onChange={setBlock} /> : 
-                block == 2 ? <GoCatastrophe value={block} onChange={setBlock} /> : 
-                block == 3 ? <GoBunker value={block} onChange={setBlock} /> : 
-                block == 4 ? <GoGame value={block} onChange={setBlock} /> : ""}
-            </>
-        );
+    return (
+        <>
+            {block == 1 ? <GoHistory firstValue={value} firstOnChange={onChange} value={block} onChange={setBlock} /> : 
+            block == 2 ? <GoCatastrophe value={block} onChange={setBlock} catastropheData={catastropheData}/> : 
+            block == 3 ? <GoBunker value={block} onChange={setBlock} bunkerData={bunkerData}/> : 
+            block == 4 ? <GoGame value={block} onChange={setBlock} /> : ""}
+        </>
+    );
 };
 
 export default AppPerson;

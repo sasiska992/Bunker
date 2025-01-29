@@ -1,5 +1,6 @@
 import random
 
+import json
 from fastapi import FastAPI
 import requests
 import re
@@ -107,6 +108,16 @@ def get_random_residence_time():
         return f"{months} месяцев"
     else:
         return f"{years} лет {months} месяцев"
+
+
+@app.get("/get_start_info")
+async def get_start_info():
+    with open('backend_data.json') as f:
+        json_data = json.load(f)
+    catastrophe_id = random.randint(0, len(json_data) - 1)
+    catastrophe_data = json_data[catastrophe_id]
+    catastrophe_data["id"] = catastrophe_id
+    return catastrophe_data
 
 
 @app.get("/")

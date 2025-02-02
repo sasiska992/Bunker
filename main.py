@@ -112,12 +112,23 @@ def get_random_residence_time():
 
 @app.get("/get_start_info")
 async def get_start_info():
-    with open('backend_data.json') as f:
+    with open('backend_data.json', 'r', encoding='utf-8') as f:
         json_data = json.load(f)
-    catastrophe_id = random.randint(0, len(json_data) - 1)
+    # catastrophe_id = random.randint(0, len(json_data) - 1)
+    catastrophe_id = 0
     catastrophe_data = json_data[catastrophe_id]
     catastrophe_data["id"] = catastrophe_id
     return catastrophe_data
+
+
+@app.get("/get_players_info")
+async def get_players_info():
+    with open('backend_data.json', 'r', encoding='utf-8') as f:
+        json_data = json.load(f)
+    # catastrophe_id = random.randint(0, len(json_data) - 1)
+    catastrophe_id = 0
+    players_info = json_data[catastrophe_id]["bunker"]["cards"]
+    return players_info
 
 
 @app.get("/")

@@ -5,12 +5,11 @@
     border-radius: 20px;
     background: rgb(222, 213, 202);
     text-align: center;
-
     padding: 20px 0;
-
     animation: section 0.2s ease-in forwards;
     cursor: pointer;
-    transition: transform 0.5s ease-in;
+    transition: transform 0.5s ease-in-out;
+    transform-style: preserve-3d;
     transform: rotateY(0deg);
 
     &-close {
@@ -25,15 +24,15 @@
         left: 0;
         background: rgb(222, 213, 202);
         border-radius: 20px;
-
         display: flex;
         justify-content: center;
         align-items: center;
-        transform: rotateY(90deg);
-        transition: transform 0.5s ease-in;
+        transform: rotateY(180deg);
+        transition: transform 0.5s ease-in-out;
+        backface-visibility: hidden; /* Скрывает заднюю сторону перевернутой карточки */
 
         &-active {
-            transform: rotateY(180deg);
+            transform: rotateY(0deg);
         }
 
         .reverse {

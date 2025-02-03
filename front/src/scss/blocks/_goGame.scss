@@ -16,7 +16,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: hidden;
+        overflow: hidden;
 
         animation: section 0.5s ease-in forwards;
 
@@ -38,6 +38,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 2;
+            animation: arrow 1.5s linear infinite;
         }
 
         .down {
@@ -71,6 +72,18 @@
         font-weight: 400;
         line-height: 40px;
         text-align: left;
+    }
+}
+
+@keyframes arrow {
+    0% {
+        bottom: 0px;
+    }
+    50% {
+        bottom: -10px;
+    }
+    100% {
+        bottom: 0px;
     }
 }
 

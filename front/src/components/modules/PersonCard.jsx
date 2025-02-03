@@ -6,8 +6,11 @@ const PersonCard = ({category, title, child = 0}) => {
     const toggleCard = () => {
         setIsOpen(!isOpen);
     };
+    const quiet = () => {
+        
+    };
     return (
-        <div className={!isOpen ? 'personCard personCard-close' : 'personCard'} onClick={toggleCard}>
+        <div className={!isOpen ? 'personCard personCard-close' : 'personCard'} onClick={child ? toggleCard : quiet}>
             <div className="category">{category}</div>
             <div className="line"></div>
             {/* название категории == картинке для этой категории */}
@@ -18,7 +21,7 @@ const PersonCard = ({category, title, child = 0}) => {
             <div className={isOpen ? 'personCard-reverse' : 'personCard-reverse personCard-reverse-active'}>
                 <div className='reverse'>
                     <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
-                    <button>Открыть</button>
+                    <button>Open</button>
                 </div>
             </div> 
             : ""}

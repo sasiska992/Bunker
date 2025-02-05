@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
 
-const PersonCard = ({category, title, child = 0}) => {
+const PersonCard = ({ category, title, child = 0 }) => {
     const [isOpen, setIsOpen] = useState(true);
 
     const toggleCard = () => {
         setIsOpen(!isOpen);
     };
-    const quiet = () => {
-        
-    };
+
     return (
-        <div className={!isOpen ? 'personCard personCard-close' : 'personCard'} onClick={child ? toggleCard : quiet}>
-            <div className="category">{category}</div>
-            <div className="line"></div>
-            {/* название категории == картинке для этой категории */}
-            <img src={`/img/${category}.svg`} alt={category} /> 
-            <div className="line"></div>
-            <div className="title">{title}</div>
-            {child ? 
-            <div className={isOpen ? 'personCard-reverse' : 'personCard-reverse personCard-reverse-active'}>
-                <div className='reverse'>
+        <div
+            className={`personCard ${!isOpen ? 'personCard-close' : ''}`}
+            onClick={child ? toggleCard : undefined}
+        >
+            {/* Передняя сторона карточки */}
+            <div className="front">
+                <div className="category">{category}</div>
+                <div className="line"></div>
+                <img src={`/img/${category}.svg`} alt={category} />
+                <div className="line"></div>
+                <div className="title">{title}</div>
+            </div>
+
+            {/* Задняя сторона карточки */}
+            {child ? (
+                <div className="back">
                     <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
                     <button>Open</button>
                 </div>
-            </div> 
-            : ""}
+            ) : null}
         </div>
     );
 };

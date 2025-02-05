@@ -4,6 +4,7 @@ import GoCatastrophe from "./GoCatastrophe";
 import GoBunker from "./GoBunker";
 import GoGame from "./GoGame";
 import PreLoader from "./modules/PreLoader";
+import Error from "./modules/Error";
 
 const AppPerson = ({value, onChange}) => {
     const [block, setBlock] = useState(1);
@@ -40,7 +41,7 @@ const AppPerson = ({value, onChange}) => {
         return <PreLoader/>
 
     if(error) {
-        return <div>Error</div>;
+        return <Error firstValue={value} firstOnChange={onChange}/>
     }
 
     return (

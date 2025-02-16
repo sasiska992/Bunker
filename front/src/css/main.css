@@ -148,6 +148,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   height: 100%;
+  padding: 0 20px;
 }
 .mainScreen .join {
   display: -webkit-box;
@@ -1162,6 +1163,16 @@ body {
   margin-top: 10px;
   font-family: "Roadkill";
 }
+.error .return {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  margin-top: 110px;
+  padding: 15px 40px;
+}
+.error .return img {
+  width: 50px;
+}
 
 .error-container > span {
   display: inline-block;
@@ -1385,4 +1396,101 @@ body {
       flex-wrap: wrap;
   max-width: 1770px;
   padding: 30px 20px;
+}
+
+@media (max-width: 1400px) {
+  .mainScreen-wrapper {
+    -webkit-column-gap: 0px;
+       -moz-column-gap: 0px;
+            column-gap: 0px;
+  }
+}
+@media (max-width: 1180px) {
+  .mainScreen .scull {
+    font-size: 100px;
+    line-height: 100px;
+    max-width: 460px;
+  }
+  .mainScreen .scull img {
+    width: 320px;
+  }
+  .mainScreen .btn {
+    font-size: 24px;
+    padding: 15px 25px;
+  }
+}
+@media (max-width: 1000px) {
+  .mainScreen-wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    row-gap: 50px;
+  }
+  .mainScreen .scull {
+    font-size: 80px;
+    max-width: 460px;
+    max-width: 100%;
+    row-gap: 20px;
+  }
+  .mainScreen .scull img {
+    width: 300px;
+  }
+  .mainScreen .create {
+    margin-top: 0;
+  }
+}
+@media (max-width: 576px) {
+  .mainScreen-wrapper {
+    row-gap: 80px;
+  }
+  .mainScreen .scull {
+    font-size: 60px;
+    line-height: 60px;
+  }
+  .mainScreen .scull img {
+    width: 240px;
+  }
+  .mainScreen .btn {
+    font-size: 20px;
+  }
+  .mainScreen .join .line {
+    margin: 6px 0;
+  }
+  .mainScreen .join .btn {
+    margin-top: 6px;
+  }
+  .mainScreen .join .txt::-webkit-input-placeholder {
+    font-size: 16px;
+  }
+  .mainScreen .join .txt::-moz-placeholder {
+    font-size: 16px;
+  }
+  .mainScreen .join .txt:-ms-input-placeholder {
+    font-size: 16px;
+  }
+  .mainScreen .join .txt::-ms-input-placeholder {
+    font-size: 16px;
+  }
+  .mainScreen .join .txt::placeholder {
+    font-size: 16px;
+  }
+}
+@media (max-width: 405px) {
+  .mainScreen-wrapper {
+    row-gap: 60px;
+  }
+}
+@media (max-width: 700px) {
+  .logo {
+    font-size: 18px;
+    left: 20px;
+    top: 20px;
+  }
+  .logo img {
+    width: 35px;
+  }
 }/*# sourceMappingURL=main.css.map */

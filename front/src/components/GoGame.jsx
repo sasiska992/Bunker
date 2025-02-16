@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from './modules/Logo';
 import TabsWithCards from './modules/TabsWithCards';
 import MyCards from './modules/MyCards';
 
 const GoGame = ({value, onChange}) => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLoading(false);
+    }, []);
     const handlePrev = () => {
         value = 3;
         onChange(value);
     }
     return (
-        <section className="game">
+        <>
+            {!loading ? 
+            <section className="game">
             <div className="cards">
                 <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
                 <Logo/>
@@ -32,10 +38,12 @@ const GoGame = ({value, onChange}) => {
                 Ситуация накалилась до предела. Я знал, что выбор, который нам предстояло сделать, определит не только нашу судьбу, но и судьбу всего человечества. В этот момент я понял: в бункере не только искали спасение, но и формировалась новая реальность, где каждый шаг мог стать решающим.
             </div>
             <div className="tabs-cards">
-                <img src="./img/tabsImg.png" alt="image" className='section-img'/>
+                <img src="./img/tabsImg.jpeg" alt="image" className='section-img'/>
                 <TabsWithCards/>
             </div>
         </section>
+        : ""}
+        </>
     );
 };
 

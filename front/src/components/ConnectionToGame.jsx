@@ -33,7 +33,7 @@ const ConnectionToGame = ({value, onChange}) => {
         <>
             {loading ? "" :
                 <section className='connect'>
-                    <img src="./img/connectionImg.png" alt="image" className='section-img'/>
+                    <img src="./img/connectionImg.jpeg" alt="image" className='section-img'/>
                     <div className="logo">
                         Бункер
                         <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />

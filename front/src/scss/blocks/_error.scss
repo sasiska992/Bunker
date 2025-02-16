@@ -41,6 +41,18 @@
         margin-top: 10px;
         font-family: 'Roadkill';
     }
+
+    .return {
+      position: relative;
+      left: 0;
+      bottom: 0;
+      margin-top: 110px;
+      padding: 15px 40px;
+
+      img {
+        width: 50px;
+      }
+    }
 }
 
 .error-container > span {

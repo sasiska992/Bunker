@@ -25,7 +25,9 @@
 
 //media for blocks
 @import "./blocks/media/mediaMainScreen";
+@import "./blocks/media/mediaWaitToConnect";
 
 
 //media for modules
-@import "./blocks/media/_mediaLogo"
+@import "./blocks/media/_mediaLogo";
+@import "./blocks/media/mediaError";

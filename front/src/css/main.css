@@ -268,6 +268,7 @@ body {
   overflow: hidden;
   -webkit-animation: section 0.5s ease-in forwards;
           animation: section 0.5s ease-in forwards;
+  padding: 0 20px;
 }
 .connect-info h2 {
   color: rgb(255, 255, 255);
@@ -409,7 +410,7 @@ body {
   position: relative;
   border-radius: 40px;
   background: rgba(0, 0, 0, 0.8);
-  padding: 87px 0;
+  padding: 87px 15px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -431,12 +432,8 @@ body {
   border-radius: 30px;
   background: rgb(217, 217, 217);
   padding: 12px 32px;
-  display: inline-block;
   position: absolute;
   top: 50px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -1484,6 +1481,127 @@ body {
     row-gap: 60px;
   }
 }
+@media (max-width: 1000px) {
+  .connect .section-h2 {
+    font-size: 24px;
+  }
+  .connect-info h2 {
+    font-size: 30px;
+  }
+  .connect-info .link {
+    max-width: 650px;
+    margin-top: 65px;
+    font-size: 30px;
+  }
+  .darkFon {
+    padding: 75px 15px;
+  }
+}
+@media (max-width: 750px) {
+  .connect .section-h2 {
+    top: 100px;
+    font-size: 22px;
+  }
+  .connect-info h2 {
+    font-size: 26px;
+    text-align: center;
+  }
+  .connect-info .link {
+    max-width: 500px;
+    margin-top: 65px;
+    font-size: 25px;
+  }
+  .connect-info .link .copy {
+    width: 30px;
+  }
+  .connect-info .link .checkmark {
+    width: 30px;
+    height: 30px;
+  }
+  .connect-info .link .checkmark:before {
+    height: 4px;
+    width: 24px;
+    top: 45%;
+    left: 26%;
+  }
+  .connect-info .link .checkmark:after {
+    height: 4px;
+    width: 12px;
+    top: 56%;
+    left: 9%;
+  }
+  .connect-info .link .checkmark-active {
+    -webkit-transform: translateY(calc(-50% - 5px)) rotateY(0deg);
+            transform: translateY(calc(-50% - 5px)) rotateY(0deg);
+  }
+  .connect-info .people {
+    margin-top: 30px;
+    font-size: 18px;
+  }
+  .connect-info .waiting {
+    margin-top: 40px;
+  }
+  .connect-info .start {
+    padding: 14px 22px;
+    font-size: 18px;
+  }
+  .darkFon {
+    padding: 65px 15px;
+  }
+}
+@media (max-width: 520px) {
+  .connect .section-h2 {
+    top: 130px;
+    font-size: 20px;
+  }
+  .connect-info h2 {
+    font-size: 24px;
+  }
+  .connect-info .link {
+    margin-top: 50px;
+    font-size: 22px;
+    padding-bottom: 10px;
+  }
+  .connect-info .link .copy {
+    margin-top: -5px;
+  }
+  .connect-info .link .checkmark {
+    width: 30px;
+    height: 30px;
+  }
+  .connect-info .link .checkmark:before {
+    height: 4px;
+    width: 24px;
+    top: 45%;
+    left: 26%;
+  }
+  .connect-info .link .checkmark:after {
+    height: 4px;
+    width: 12px;
+    top: 56%;
+    left: 9%;
+  }
+  .connect-info .link .checkmark-active {
+    -webkit-transform: translateY(calc(-50% - 5px)) rotateY(0deg);
+            transform: translateY(calc(-50% - 5px)) rotateY(0deg);
+  }
+  .connect-info .people {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  .connect-info .waiting {
+    margin-top: 50px;
+    width: 250px;
+  }
+  .connect-info .start {
+    padding: 16px 20px;
+    font-size: 16px;
+    margin-top: 40px;
+  }
+  .darkFon {
+    padding: 60px 15px;
+  }
+}
 @media (max-width: 700px) {
   .logo {
     font-size: 18px;
@@ -1491,6 +1609,79 @@ body {
     top: 20px;
   }
   .logo img {
+    width: 35px;
+  }
+}
+@media (max-width: 1000px) {
+  .error-container {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+  .error .return {
+    padding: 15px 30px;
+  }
+}
+@media (max-width: 700px) {
+  .error-container {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    margin-top: 80px;
+  }
+  .error h1 {
+    font-size: 90px;
+  }
+  .error .return {
+    margin-top: 80px;
+  }
+  .error .return img {
+    width: 40px;
+  }
+}
+@media (max-width: 520px) {
+  .error-container {
+    -webkit-transform: scale(0.8);
+            transform: scale(0.8);
+    margin-top: 50px;
+  }
+  .error h1 {
+    font-size: 70px;
+  }
+  .error .zoom-area {
+    font-size: 24px;
+  }
+  .error .return {
+    margin-top: 50px;
+  }
+}
+@media (max-width: 420px) {
+  .error-container {
+    -webkit-transform: scale(0.7);
+            transform: scale(0.7);
+    margin-top: 40px;
+  }
+  .error h1 {
+    font-size: 60px;
+  }
+  .error .zoom-area {
+    font-size: 22px;
+  }
+  .error .return {
+    margin-top: 60px;
+  }
+}
+@media (max-width: 350px) {
+  .error-container {
+    -webkit-transform: scale(0.65);
+            transform: scale(0.65);
+    margin-top: 20px;
+  }
+  .error h1 {
+    font-size: 54px;
+  }
+  .error .return {
+    margin-top: 30px;
+  }
+  .error .return img {
     width: 35px;
   }
 }/*# sourceMappingURL=main.css.map */

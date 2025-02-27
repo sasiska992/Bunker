@@ -9,6 +9,7 @@
     overflow: hidden;
 
     animation: section 0.5s ease-in forwards;
+    padding: 0 20px;
 
     &-info {
         h2 {
@@ -150,7 +151,7 @@
     position: relative;
     border-radius: 40px;
     background: rgba(0, 0, 0, 0.8);
-    padding: 87px 0;
+    padding: 87px 15px;
 
     display: flex;
     align-items: center;
@@ -167,12 +168,8 @@
     background: rgb(217, 217, 217);
     padding: 12px 32px;
 
-    display: inline-block;
-
     position: absolute;
     top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
     user-select: none;
 }
 

@@ -2,8 +2,27 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const WaitToConnect = ({value, onChange}) => {
     const [loading, setLoading] = useState(true);
+    const [playersCount, setPlayersCount] = useState(0); //состояния для подключенных игроков
+    const socketRef = useRef(null);
     useEffect(() => {
           setLoading(false);
+
+          const socket = new WebSocket('wss://your-websocket-server-url'); // Замените на ваш URL
+        socketRef.current = socket;
+
+        // Обработчик открытия соединения
+        socket.onopen = () => {
+            console.log('WebSocket подключен');
+            // Здесь можно отправить начальные данные, например, ID комнаты
+            socket.send(JSON.stringify({ roomId: '1a2b3c4d5', action: 'join' })); // Пример
+        };
+
+          socket.onmessage = (event) => {
+            const message = JSON.parse(event.data);
+            if (message.type === 'playersUpdate') {
+                setPlayersCount(message.count); // Обновляем количество игроков
+            }
+        };
     }, []);
     
     const handleclick = () => {
@@ -44,7 +63,7 @@ const WaitToConnect = ({value, onChange}) => {
                             <img src="./img/copy.svg" alt="copy" onClick={handleCopyClick} className={!check ? "copy" : "copy copy-active"}/>
                             <div onClick={handleCopyClick} className={!check ? "checkmark" : "checkmark checkmark-active"}></div>
                         </div>
-                        <div className="people">Присоединилось 6 / 12</div>
+                        <div className="people">Присоединилось {playersCount} 6 / 12</div>
                         <div className="waiting">Дождитесь начала игры</div>
                     </div>
 

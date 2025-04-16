@@ -1,6 +1,3 @@
-# В начале каждого файла
-print(f"settings loading {__name__}")
-
 import os
 import sys
 from pathlib import Path

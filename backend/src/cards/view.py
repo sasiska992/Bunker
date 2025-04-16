@@ -6,7 +6,7 @@ import requests
 from fastapi import APIRouter
 from openai import OpenAI
 
-from backend.src.ai_requests.utils import get_response
+from src.ai_requests.utils import get_response
 
 router = APIRouter()
 
@@ -29,7 +29,8 @@ def get_random_bunker_description():
         "Sec-Fetch-Mode": "cors"
     }
 
-    data = {}  # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные.
+    # Поскольку Content-Length: 2, предполагаем, что тело запроса пустое или содержит минимальные данные.
+    data = {}
 
     response = requests.post(url, headers=headers, json=data)
     result = response.json()["msg"]
@@ -38,8 +39,10 @@ def get_random_bunker_description():
     catastrophe_data = data[0]
     game_duration = r"Игра на время( |:) \d+ (минут|минуты)\.?"
     advanced_game_pattern = r"Продвинутая игра: .*?\.?"
-    catastrophe_description = re.sub(game_duration, "", catastrophe_data[1][2:]).strip()
-    catastrophe_description = re.sub(advanced_game_pattern, "", catastrophe_description).strip()
+    catastrophe_description = re.sub(
+        game_duration, "", catastrophe_data[1][2:]).strip()
+    catastrophe_description = re.sub(
+        advanced_game_pattern, "", catastrophe_description).strip()
     bunker_description = {
         "catastrophe": {
             "catastrophe_title": catastrophe_data[0].split("Сценарий катастрофы: ")[1].replace(".", ""),
@@ -53,7 +56,8 @@ def get_random_bunker_description():
             "additional_information": [info for info in bunker_data[2].split("\n")],
             "tools": [info for info in bunker_data[3].split("\n")],
             "size": random.randint(50, 1000),
-            "number_of_seats": random.randint(1, 6),  # todo: доделать места исходя от кол-ва игроков
+            # todo: доделать места исходя от кол-ва игроков
+            "number_of_seats": random.randint(1, 6),
         }
     }
     if response.status_code == 200:
@@ -121,7 +125,7 @@ async def get_players_info():
 
 @router.get("/create_ai_player_cards")
 def create_ai_player_cards():
-    from backend.settings import AI_TOKEN
+    from settings import AI_TOKEN
     client = OpenAI(
         base_url="https://openrouter.ai/api/v1",
         api_key=AI_TOKEN,
@@ -139,7 +143,8 @@ def create_ai_player_cards():
         ],
         max_tokens=1000
     )
-    response = completion.choices[0].message.content.replace("```json", "").replace("```", "")
+    response = completion.choices[0].message.content.replace(
+        "```json", "").replace("```", "")
     data_dict = json.loads(response)
     return data_dict
 
@@ -154,7 +159,8 @@ async def root():
                 "size": random.randint(50, 1000),
                 "residence_time": get_random_residence_time(),
                 "food_supply": get_random_residence_time(),
-                "number_of_seats": random.randint(1, 6),  # todo: доделать места исходя от кол-ва игроков
+                # todo: доделать места исходя от кол-ва игроков
+                "number_of_seats": random.randint(1, 6),
             },
             "player_cards": []
         }

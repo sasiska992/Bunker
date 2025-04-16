@@ -1,25 +1,14 @@
-import random
-
 import json
-from fastapi import FastAPI
-import requests
+import random
 import re
 
-from fastapi.middleware.cors import CORSMiddleware
+import requests
+from fastapi import APIRouter
+from openai import OpenAI
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-]
+from backend.src.ai_requests.utils import get_response
 
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+router = APIRouter()
 
 
 def get_random_bunker_description():
@@ -67,7 +56,6 @@ def get_random_bunker_description():
             "number_of_seats": random.randint(1, 6),  # todo: доделать места исходя от кол-ва игроков
         }
     }
-    print(bunker_description.get("bunker"))
     if response.status_code == 200:
         return bunker_description
     else:
@@ -110,9 +98,9 @@ def get_random_residence_time():
         return f"{years} лет {months} месяцев"
 
 
-@app.get("/get_start_info")
+@router.get("/get_start_info")
 async def get_start_info():
-    with open('backend_data.json', 'r', encoding='utf-8') as f:
+    with open(r"backend/backend_data.json", 'r', encoding='utf-8') as f:
         json_data = json.load(f)
     # catastrophe_id = random.randint(0, len(json_data) - 1)
     catastrophe_id = 0
@@ -121,9 +109,9 @@ async def get_start_info():
     return catastrophe_data
 
 
-@app.get("/get_players_info")
+@router.get("/get_players_info")
 async def get_players_info():
-    with open('backend_data.json', 'r', encoding='utf-8') as f:
+    with open('../../backend_data.json', 'r', encoding='utf-8') as f:
         json_data = json.load(f)
     # catastrophe_id = random.randint(0, len(json_data) - 1)
     catastrophe_id = 0
@@ -131,7 +119,32 @@ async def get_players_info():
     return players_info
 
 
-@app.get("/")
+@router.get("/create_ai_player_cards")
+def create_ai_player_cards():
+    from backend.settings import AI_TOKEN
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=AI_TOKEN,
+    )
+
+    request = get_response("player_card")
+    completion = client.chat.completions.create(
+        extra_body={},
+        model="deepseek/deepseek-r1-distill-llama-70b:free",
+        messages=[
+            {
+                "role": "user",
+                "content": request
+            }
+        ],
+        max_tokens=1000
+    )
+    response = completion.choices[0].message.content.replace("```json", "").replace("```", "")
+    data_dict = json.loads(response)
+    return data_dict
+
+
+@router.get("/")
 async def root():
     cards = dict(
         {

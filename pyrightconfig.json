@@ -1,6 +1,0 @@
-{
-  "venvPath": "./venv", // Путь к вашему виртуальному окружению
-  "pythonVersion": "3.x", // Укажите вашу версию Python
-  "include": ["src/**/*.py"],
-  "exclude": ["**/node_modules", "**/__pycache__"]
-}

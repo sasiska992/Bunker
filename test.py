@@ -18,7 +18,7 @@ import json
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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",
+    api_key="",
 )
 
 request = """
@@ -110,6 +110,7 @@ request = """
   "special_condition": "",
   "work_experience": ""
 }
+Ответь без рассуждений
 
 Требования к ответу:
 
@@ -131,6 +132,7 @@ completion = client.chat.completions.create(
             "content": request
         }
     ],
+    max_tokens=1000
 )
 print(completion.choices[0].message.content)
 response = completion.choices[0].message.content.replace("```json", "").replace("```", "")

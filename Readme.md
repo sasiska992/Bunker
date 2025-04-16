@@ -2,7 +2,7 @@
 
 ## Создание вирутального окружения и установка всех нужных библиотек
 ```bash
-python3 -m venv venv && pip3 install backend/requirements.txt
+python3 -m venv venv && cd backend && pip3 install -r requirements.txt && cd ..
 ```
 ## Запуск приложения
 

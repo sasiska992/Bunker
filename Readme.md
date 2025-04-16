@@ -1,15 +1,15 @@
-# Запуск бека:
+# Backend:
 
-## Установка всех нужных библиотек
+## Создание вирутального окружения и установка всех нужных библиотек
 ```bash
-python3 -m venv venv && pip3 install requirements.txt
+python3 -m venv venv && pip3 install backend/requirements.txt
 ```
 ## Запуск приложения
 
 ### Windows
 
 ```bash
-source venv/bin/activate && python3 backend/app.py
+source venv/Scripts/activate && python backend/app.py
 ````
 ### Linux
 ```bash
@@ -20,13 +20,8 @@ source venv/bin/activate && python3 backend/app.py
 http://127.0.0.1:8000/docs#/
 
 ##
-# Запуск фронта
-
-## Необходимо перейти в папку front
-```bash
-cd front
-```
+# Frontend
 ## Запуск приложения
 ```bash
-npm start  
+cd front && npm start  
 ```

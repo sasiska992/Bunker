@@ -104,7 +104,7 @@ def get_random_residence_time():
 
 @router.get("/get_start_info", tags=["Cards"])
 async def get_start_info():
-    with open(r"backend/backend_data.json", 'r', encoding='utf-8') as f:
+    with open(r"backend_data.json", 'r', encoding='utf-8') as f:
         json_data = json.load(f)
     # catastrophe_id = random.randint(0, len(json_data) - 1)
     catastrophe_id = 0

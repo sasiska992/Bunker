@@ -19,11 +19,15 @@ app.add_middleware(
 # Определите функцию для включения маршрутизатора
 def include_routers():
     from src.cards.view import router as card_router
+    from src.game.view import router as game_router
+    from src.game.sockets import router as game_socket_router
+    app.include_router(game_socket_router)
     app.include_router(card_router)
+    app.include_router(game_router)
 
 
 if __name__ == "__main__":
     import uvicorn
 
     include_routers()
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000, workers=1)

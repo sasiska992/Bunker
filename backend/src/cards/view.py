@@ -102,7 +102,7 @@ def get_random_residence_time():
         return f"{years} лет {months} месяцев"
 
 
-@router.get("/get_start_info")
+@router.get("/get_start_info", tags=["Cards"])
 async def get_start_info():
     with open(r"backend/backend_data.json", 'r', encoding='utf-8') as f:
         json_data = json.load(f)
@@ -113,7 +113,7 @@ async def get_start_info():
     return catastrophe_data
 
 
-@router.get("/get_players_info")
+@router.get("/get_players_info", tags=["Cards"])
 async def get_players_info():
     with open('../../backend_data.json', 'r', encoding='utf-8') as f:
         json_data = json.load(f)
@@ -123,7 +123,7 @@ async def get_players_info():
     return players_info
 
 
-@router.get("/create_ai_player_cards")
+@router.get("/create_ai_player_cards", tags=["Cards"])
 def create_ai_player_cards():
     from settings import AI_TOKEN
     client = OpenAI(
@@ -149,7 +149,7 @@ def create_ai_player_cards():
     return data_dict
 
 
-@router.get("/")
+@router.get("/", tags=["Cards"])
 async def root():
     cards = dict(
         {

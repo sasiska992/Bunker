@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Request
 import random
+from sqlalchemy.exc import SQLAlchemyError
+
+from src.models import Session
+from src.models.rooms import Rooms
 
 router = APIRouter()
-
-rooms = {}
 
 
 def create_random_url() -> str:
@@ -21,23 +23,28 @@ def create_random_url() -> str:
 def create_room(request: Request):
     random_url = create_random_url()
     url = str(request.base_url) + random_url
-    rooms[random_url] = {"users": 0}
+    room = Rooms(id=random_url)
+    room.add()
+
     return url
 
 
 @router.post("/rooms/join/", summary="Join in created room", tags=["Rooms"])
 def join_room(room_id: str):
     try:
-        rooms[room_id]["users"] += 1
-    except KeyError:
-        return "Комната ещё не создана"
-    return f"Вы успешно подключились к комнате {room_id}! Тут уже целых {rooms[room_id]['users']}"
+        room: Rooms = Rooms.select_for_one_key(column="id", value=room_id)
+        room.update_values(active_users=room.active_users + 1)
+    except SQLAlchemyError:
+        return "Ошибка обновления данных"
+    return f"Вы успешно подключились к комнате {room_id}! Тут уже целых {room.active_users + 1}"
 
 
 @router.delete("/rooms/leave/", summary="Leave from created room", tags=["Rooms"])
 def leave_room(room_id: str):
     try:
-        rooms[room_id]["users"] -= 1
+        room: Rooms = Rooms.select_for_one_key(column="id", value=room_id)
+        room.update_values(active_users=room.active_users - 1)
+        pass
     except KeyError:
         return "Комната ещё не создана"
-    return f"Вы успешно вышли из комнаты {room_id}! Тут теперь {rooms[room_id]['users']}"
+    return f"Вы успешно вышли из комнатs {room_id}! Тут теперь {room.active_users - 1}"

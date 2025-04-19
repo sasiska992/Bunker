@@ -1,6 +1,6 @@
 from fastapi import WebSocket, APIRouter
 from fastapi.responses import HTMLResponse
-from .view import rooms
+# from .rooms import rooms
 
 router = APIRouter()
 

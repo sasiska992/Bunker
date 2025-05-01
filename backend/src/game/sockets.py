@@ -1,5 +1,7 @@
-from fastapi import WebSocket, APIRouter
+from fastapi import WebSocket, APIRouter, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+from typing import List, Dict
+
 # from .rooms import rooms
 
 router = APIRouter()
@@ -26,7 +28,7 @@ html = """
             }
 
             // Создаем новое соединение WebSocket
-            ws = new WebSocket("ws://localhost:8000/join_game");
+            ws = new WebSocket("ws://localhost:8000/ws/join_game/123");
 
             ws.onopen = function() {
                 ws.send("User connected");
@@ -64,7 +66,7 @@ html = """
 
         function sendLeaveNotification(message) {
             // Создаем новое соединение WebSocket для отправки уведомления о выходе
-            var leaveWs = new WebSocket("ws://localhost:8000/leave_game");
+            var leaveWs = new WebSocket("ws://localhost:8000/ws/leave_game/123");
 
             leaveWs.onopen = function() {
                 leaveWs.send(message);
@@ -95,15 +97,32 @@ async def room():
     return HTMLResponse(html)
 
 
-@router.websocket("/join_game")
-async def join_game(websocket: WebSocket):
-    await websocket.accept()
-    print("Игрок подключился")
-    await websocket.send_text("Пользователь подключился")
+active_users: Dict[str, List[WebSocket]] = {}
 
 
-@router.websocket("/leave_game")
-async def leave_game(websocket: WebSocket):
+@router.websocket("/ws/join_game/{room_id}")
+async def join_game(websocket: WebSocket, room_id: str):
     await websocket.accept()
-    print("Игрок отключился!!!!!ТРИВОГА")
+    if room_id not in active_users.keys():
+        active_users[room_id] = []
+    active_users[room_id].append(websocket)
+    print(active_users[room_id])
+    print(f"Игрок подключился в комнату {room_id}")
+
+    try:
+        while True:
+            for current_socket in active_users[room_id]:
+                if current_socket != websocket:
+                    await current_socket.send_text(f"Пользователь подключился. Это уже {active_users[room_id].index(current_socket)}")
+    except WebSocketDisconnect:
+
+        active_users[room_id].remove(websocket)
+        if not active_users[room_id]:
+            del active_users[room_id]
+
+
+@router.websocket("/ws/leave_game/{room_id}")
+async def leave_game(websocket: WebSocket, room_id: str):
+    await websocket.accept()
+    print(f"Игрок отключился из комнаты {room_id}!!!!!ТРИВОГА")
     await websocket.send_text("Пользователь отключился")

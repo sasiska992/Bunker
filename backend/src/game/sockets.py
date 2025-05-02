@@ -106,14 +106,15 @@ async def join_game(websocket: WebSocket, room_id: str):
     if room_id not in active_users.keys():
         active_users[room_id] = []
     active_users[room_id].append(websocket)
-    print(active_users[room_id])
     print(f"Игрок подключился в комнату {room_id}")
 
     try:
         while True:
+            data = await websocket.receive_text()
+            print(data)
             for current_socket in active_users[room_id]:
-                if current_socket != websocket:
-                    await current_socket.send_text(f"Пользователь подключился. Это уже {active_users[room_id].index(current_socket)}")
+                # if current_socket != websocket:
+                await current_socket.send_text(f"Пользователь подключился. Это уже {len(active_users[room_id])}")
     except WebSocketDisconnect:
 
         active_users[room_id].remove(websocket)

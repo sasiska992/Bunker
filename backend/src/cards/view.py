@@ -143,6 +143,7 @@ def create_ai_player_cards():
         ],
         max_tokens=1000
     )
+    print(completion.choices[0].message.content)
     response = completion.choices[0].message.content.replace(
         "```json", "").replace("```", "")
     data_dict = json.loads(response)

@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+  databese:
+    image: postgres:13.4
+    environment:
+      - POSTGRES_USER=bunker
+      - POSTGRES_PASSWORD=bunker
+      - POSTGRES_DB=bunker
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - bunker-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app/backend
+    networks:
+      - bunker-network
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app/frontend
+    networks:
+      - bunker-network
+    depends_on:
+      condition: service_healthy
+      restart: true
+
+networks:
+  bunker-network:
+    driver: bridge

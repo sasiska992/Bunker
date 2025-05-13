@@ -1,65 +1,86 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useWebSocket } from './hooks/useWebSocket';
 
-const ConnectionToGame = ({value, onChange}) => {
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-          setLoading(false);
-    }, []);
-    
-    const handleclick = () => {
-        value = 1;
-        onChange(value);
-    }
-    const goGame = () => {
-        value = 4;
-        onChange(value);
-    }
-
-    const linkRef = useRef(null);
+const ConnectionToGame = ({ onChange, roomId }) => {
+    const [playersCount, setPlayersCount] = useState(1);
+    const [maxPlayers] = useState(12);
     const [check, setCheck] = useState(false);
+    
+    // Используем кастомный хук для WebSocket (единственное соединение)
+    const { socketRef } = useWebSocket(roomId, (data) => {
+        if (data.type === 'roomState') {
+            setPlayersCount(data.count);
+        }
+    });
+
+    const handleStartGame = () => {
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            socketRef.current.send(JSON.stringify({
+                action: 'startGame',
+                roomId: roomId
+            }));
+            onChange(4); // Переход к игре
+        }
+    };
+
+    const handleDisconnect = () => {
+        if (socketRef.current) {
+            socketRef.current.close();
+        }
+        onChange(1); // Возврат на предыдущий экран
+    };
 
     const handleCopyClick = async () => {
-        if (linkRef.current) {
-        const textToCopy = linkRef.current.textContent.trim();
         try {
-            await navigator.clipboard.writeText(textToCopy);
+            await navigator.clipboard.writeText(window.location.href);
+            setCheck(true);
         } catch (err) {
             console.error('Не удалось скопировать текст: ', err);
         }
-        }
-        setCheck(true);
     };
+
     return (
-        <>
-            {loading ? "" :
-                <section className='connect'>
-                    <img src="./img/connectionImg.jpeg" alt="image" className='section-img'/>
-                    <div className="logo">
-                        Бункер
-                        <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
-                    </div>
+        <section className='connect'>
+            <img src="./img/connectionImg.jpeg" alt="image" className='section-img'/>
+            <div className="logo">
+                Бункер
+                <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
+            </div>
 
-                    <h2 className="section-h2">Ожидание игроков</h2>
+            <h2 className="section-h2">Ожидание игроков</h2>
 
-                    <div className="darkFon connect-info">
-                        <h2>Пригласите пользователя по ссылке ниже</h2>
-                        <div className="link" ref={linkRef}>
-                            Бункер-ёпта?invite=1a2b3c4d5
-                            <img src="./img/copy.svg" alt="copy" onClick={handleCopyClick} className={!check ? "copy" : "copy copy-active"}/>
-                            <div onClick={handleCopyClick} className={!check ? "checkmark" : "checkmark checkmark-active"}></div>
-                        </div>
-                        <div className="people">Присоединилось 6 / 12</div>
-                        <button onClick={goGame} className="start">Начать игру</button>
-                    </div>
+            <div className="darkFon connect-info">
+                <h2>Пригласите пользователя по ссылке ниже</h2>
+                <div className="link">
+                    {window.location.href}
+                    <img 
+                        src="./img/copy.svg" 
+                        alt="copy" 
+                        onClick={handleCopyClick} 
+                        className={!check ? "copy" : "copy copy-active"}
+                    />
+                    <div 
+                        onClick={handleCopyClick} 
+                        className={!check ? "checkmark" : "checkmark checkmark-active"}
+                    ></div>
+                </div>
+                <div className="people">Присоединилось {playersCount} / {maxPlayers}</div>
+                <button 
+                    onClick={handleStartGame} 
+                    className="start"
+                    disabled={playersCount < 2}
+                >
+                    Начать игру
+                </button>
+            </div>
 
-                    <button onClick={handleclick} className="return">
-                        <img src="./img/return.svg" alt="return" />
-                    </button>
-                    <button className="info">
-                        <img src="./img/info.svg" alt="info" />
-                    </button>
-                </section>}
-        </>
+            <button onClick={handleDisconnect} className="return">
+                <img src="./img/return.svg" alt="return" />
+            </button>
+            <button className="info">
+                <img src="./img/info.svg" alt="info" />
+            </button>
+        </section>
     );
 };
 

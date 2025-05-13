@@ -1,129 +1,70 @@
-from fastapi import WebSocket, APIRouter, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
-from typing import List, Dict
-
-# from .rooms import rooms
+from fastapi import WebSocket, APIRouter, Query
+from typing import Dict
+import json
+import uuid
 
 router = APIRouter()
 
-html = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat</title>
-</head>
-<body>
-    <h1>Тестовые кнопки</h1>
-    <button onclick="connect(event)" id="connect">Подключиться</button>
-    <button onclick="disconnect(event)" id="disconnect">Отключиться</button>
-    <ul id='enters'></ul>
-    <script>
-        var ws;
+class ConnectionManager:
+    def __init__(self):
+        self.active_rooms: Dict[str, Dict] = {}
 
-        function connect(event) {
-            // Проверяем, если WebSocket уже открыт
-            if (ws && ws.readyState === WebSocket.OPEN) {
-                console.log("Уже подключено к WebSocket");
-                return;
+    async def connect(self, websocket: WebSocket, room_id: str, user_id: str):
+        await websocket.accept()
+        
+        if room_id not in self.active_rooms:
+            self.active_rooms[room_id] = {
+                "players": {},
+                "max_players": 12
             }
+        
+        # Проверяем, не заполнена ли комната
+        if len(self.active_rooms[room_id]["players"]) >= self.active_rooms[room_id]["max_players"]:
+            await websocket.close(code=4000, reason="Room is full")
+            return
+        
+        self.active_rooms[room_id]["players"][user_id] = websocket
+        await self._broadcast_room_state(room_id)
 
-            // Создаем новое соединение WebSocket
-            ws = new WebSocket("ws://localhost:8000/ws/join_game/123");
+        print(f"New connection: room_id={room_id}, user_id={user_id}")
+        print(f"Current players: {len(self.active_rooms[room_id]['players'])}")
 
-            ws.onopen = function() {
-                ws.send("User connected");
-                console.log("Подключено к WebSocket");
-            };
+    async def disconnect(self, room_id: str, user_id: str):
+        if room_id in self.active_rooms and user_id in self.active_rooms[room_id]["players"]:
+            del self.active_rooms[room_id]["players"][user_id]
+            await self._broadcast_room_state(room_id)
+            
+            if not self.active_rooms[room_id]["players"]:
+                del self.active_rooms[room_id]
 
-            ws.onmessage = function(event) {
-                var messages = document.getElementById('enters');
-                var message = document.createElement('li');
-                var content = document.createTextNode(event.data);
-                message.appendChild(content);
-                messages.appendChild(message);
-            };
-
-            ws.onclose = function() {
-                console.log("Отключено от WebSocket");
-            };
-
-            ws.onerror = function(error) {
-                console.error("Ошибка WebSocket: ", error);
-            };
-        }
-
-        function disconnect(event) {
-            if (ws) {
-                // Отправляем уведомление о выходе
-                sendLeaveNotification("User disconnected");
-                ws.close(); // Закрываем соединение
-                console.log("Отключено от WebSocket");
-                ws = null; // Обнуляем переменную ws
-            } else {
-                console.log("Нет активного соединения для отключения");
+    async def _broadcast_room_state(self, room_id: str):
+        if room_id in self.active_rooms:
+            room = self.active_rooms[room_id]
+            message = {
+                "type": "roomState",
+                "count": len(room["players"]),
+                "max_players": room["max_players"],
+                "room_id": room_id
             }
-        }
+            
+            for player_ws in room["players"].values():
+                await player_ws.send_text(json.dumps(message))
+            print(f"Broadcasting room state: {message}") 
 
-        function sendLeaveNotification(message) {
-            // Создаем новое соединение WebSocket для отправки уведомления о выходе
-            var leaveWs = new WebSocket("ws://localhost:8000/ws/leave_game/123");
+manager = ConnectionManager()
 
-            leaveWs.onopen = function() {
-                leaveWs.send(message);
-                console.log("Уведомление о выходе отправлено: " + message);
-                 leaveWs.onmessage = function(event) {
-                var messages = document.getElementById('enters');
-                var message = document.createElement('li');
-                var content = document.createTextNode(event.data);
-                message.appendChild(content);
-                messages.appendChild(message);
-                
-            };
-                leaveWs.close(); // Закрываем соединение после отправки
-            };
-
-            leaveWs.onerror = function(error) {
-                console.error("Ошибка WebSocket при отправке уведомления: ", error);
-            };
-        }
-    </script>
-</body>
-</html>
-"""
-
-
-@router.get("/test_room", tags=["TEST"])
-async def room():
-    return HTMLResponse(html)
-
-
-active_users: Dict[str, List[WebSocket]] = {}
-
-
-@router.websocket("/ws/join_game/{room_id}")
-async def join_game(websocket: WebSocket, room_id: str):
-    await websocket.accept()
-    if room_id not in active_users.keys():
-        active_users[room_id] = []
-    active_users[room_id].append(websocket)
-    print(f"Игрок подключился в комнату {room_id}")
-
+@router.websocket("/ws/room/{room_id}")
+async def websocket_endpoint(
+    websocket: WebSocket,
+    room_id: str,
+    user_id: str = Query(default_factory=lambda: str(uuid.uuid4()))
+):
+    await manager.connect(websocket, room_id, user_id)
     try:
         while True:
             data = await websocket.receive_text()
-            print(data)
-            for current_socket in active_users[room_id]:
-                # if current_socket != websocket:
-                await current_socket.send_text(f"Пользователь подключился. Это уже {len(active_users[room_id])}")
-    except WebSocketDisconnect:
-
-        active_users[room_id].remove(websocket)
-        if not active_users[room_id]:
-            del active_users[room_id]
-
-
-@router.websocket("/ws/leave_game/{room_id}")
-async def leave_game(websocket: WebSocket, room_id: str):
-    await websocket.accept()
-    print(f"Игрок отключился из комнаты {room_id}!!!!!ТРИВОГА")
-    await websocket.send_text("Пользователь отключился")
+            # Можно добавить обработку игровых команд
+    except Exception as e:
+        print(f"Connection error: {e}")
+    finally:
+        await manager.disconnect(room_id, user_id)

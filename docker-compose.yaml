@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  databese:
+  database:
     image: postgres:13.4
     environment:
       - POSTGRES_USER=bunker
@@ -26,10 +26,7 @@ services:
     networks:
       - bunker-network
     depends_on:
-      database:
-        condition: service_healthy
-        restart: true
-
+      - database
   frontend:
     build:
       context: ./frontend
@@ -41,8 +38,7 @@ services:
     networks:
       - bunker-network
     depends_on:
-      condition: service_healthy
-      restart: true
+      - backend
 
 networks:
   bunker-network:

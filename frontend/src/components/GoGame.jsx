@@ -3,7 +3,7 @@ import Logo from './modules/Logo';
 import TabsWithCards from './modules/TabsWithCards';
 import MyCards from './modules/MyCards';
 
-const GoGame = ({value, onChange}) => {
+const GoGame = ({value, onChange, res}) => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         setLoading(false);
@@ -21,7 +21,7 @@ const GoGame = ({value, onChange}) => {
                 <Logo/>
                 <div className="section-h2">Карточки игрока</div>
                 <div className="darkFon">
-                    <MyCards />
+                    <MyCards res={res}/>
                 </div>
                 <button onClick={handlePrev} className="prev">
                     <img src="./img/arrow.svg" alt="next" />

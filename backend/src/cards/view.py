@@ -1,12 +1,14 @@
 import json
 import random
 import re
-
+import logging
+from settings import AI_TOKEN
 import requests
 from fastapi import APIRouter
 from openai import OpenAI
 
 from src.ai_requests.utils import get_response
+
 
 router = APIRouter()
 
@@ -123,6 +125,32 @@ async def get_players_info():
     return players_info
 
 
+# @router.get("/create_ai_player_cards", tags=["Cards"])
+# def create_ai_player_cards():
+#     from settings import AI_TOKEN
+#     client = OpenAI(
+#         base_url="https://openrouter.ai/api/v1",
+#         api_key=AI_TOKEN,
+#     )
+
+#     request = get_response("player_card")
+#     completion = client.chat.completions.create(
+#         extra_body={},
+#         model="deepseek/deepseek-r1-distill-llama-70b:free",
+#         messages=[
+#             {
+#                 "role": "user",
+#                 "content": request
+#             }
+#         ],
+#         max_tokens=1000
+#     )
+#     print(completion.choices[0].message.content)
+#     response = completion.choices[0].message.content.replace(
+#         "```json", "").replace("```", "")
+#     data_dict = json.loads(response)
+#     return data_dict
+
 @router.get("/create_ai_player_cards", tags=["Cards"])
 def create_ai_player_cards():
     from settings import AI_TOKEN
@@ -131,23 +159,40 @@ def create_ai_player_cards():
         api_key=AI_TOKEN,
     )
 
+    # Запрашиваем данные у ИИ
     request = get_response("player_card")
     completion = client.chat.completions.create(
         extra_body={},
         model="deepseek/deepseek-r1-distill-llama-70b:free",
-        messages=[
-            {
-                "role": "user",
-                "content": request
-            }
-        ],
+        messages=[{"role": "user", "content": request}],
         max_tokens=1000
     )
-    print(completion.choices[0].message.content)
-    response = completion.choices[0].message.content.replace(
-        "```json", "").replace("```", "")
-    data_dict = json.loads(response)
-    return data_dict
+    
+    # Получаем сырой ответ
+    raw_response = completion.choices[0].message.content
+    print("Ответ от ИИ:", raw_response)  # Логируем для отладки
+    
+    # Чистим ответ (удаляем Markdown-обрамление)
+    cleaned_response = raw_response.replace("```json", "").replace("```", "").strip()
+    
+    # Пытаемся распарсить JSON
+    try:
+        # Пробуем распарсить весь ответ как есть
+        data = json.loads(cleaned_response)
+    except json.JSONDecodeError:
+        # Если не получилось — пробуем вырезать ПЕРВЫЙ JSON из ответа
+        try:
+            start_idx = cleaned_response.find('{')
+            end_idx = cleaned_response.rfind('}') + 1
+            if start_idx != -1 and end_idx != -1:
+                json_str = cleaned_response[start_idx:end_idx]
+                data = json.loads(json_str)
+            else:
+                raise ValueError("В ответе нет валидного JSON")
+        except Exception as e:
+            raise ValueError(f"Ошибка парсинга JSON: {e}\nИсходный ответ: {raw_response}")
+    
+    return data
 
 
 @router.get("/", tags=["Cards"])

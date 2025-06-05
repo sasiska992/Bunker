@@ -2,6 +2,7 @@ import React from 'react';
 
 const Error = ({firstValue, firstOnChange}) => {
     const handleclick = () => {
+        window.history.pushState({}, '', '/');
         firstValue = 1;
         firstOnChange(firstValue);
     }

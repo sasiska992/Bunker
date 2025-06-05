@@ -27,6 +27,8 @@ services:
       - bunker-network
     depends_on:
       - database
+    env_file:
+      - ./backend/.env
   frontend:
     build:
       context: ./frontend

@@ -12,6 +12,7 @@ const AppPerson = ({value, onChange}) => {
     const [bunkerData, setBunkerData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [res, setRes] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +38,15 @@ const AppPerson = ({value, onChange}) => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const fetchCards = async () => {
+            const cardsPerson = await fetch('http://127.0.0.1:8000/create_ai_player_cards');
+            setRes(cardsPerson)
+        }
+
+        fetchCards()
+    }, [])
+
     if(loading)
         return <PreLoader/>
 
@@ -49,7 +59,7 @@ const AppPerson = ({value, onChange}) => {
             {block == 1 ? <GoHistory firstValue={value} firstOnChange={onChange} value={block} onChange={setBlock} /> :
             block == 2 ? <GoCatastrophe value={block} onChange={setBlock} catastropheData={catastropheData}/> :
             block == 3 ? <GoBunker value={block} onChange={setBlock} bunkerData={bunkerData}/> :
-            block == 4 ? <GoGame value={block} onChange={setBlock} /> : ""}
+            block == 4 ? <GoGame value={block} onChange={setBlock} res={res}/> : ""}
         </>
     );
 };

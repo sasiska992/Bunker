@@ -53,6 +53,8 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+import json  # Убедись, что импорт есть сверху
+
 @router.websocket("/ws/room/{room_id}")
 async def websocket_endpoint(
     websocket: WebSocket,
@@ -63,7 +65,25 @@ async def websocket_endpoint(
     try:
         while True:
             data = await websocket.receive_text()
-            # Можно добавить обработку игровых команд
+            print(f"Received message from {user_id}: {data}")
+            try:
+                message = json.loads(data)
+
+                # Обработка команды запуска игры
+                if message.get("type") == "startGame":
+                    start_game_msg = json.dumps({
+                        "type": "startGame",
+                        "room_id": room_id
+                    })
+                    # Разослать всем игрокам в комнате
+                    room = manager.active_rooms.get(room_id)
+                    if room:
+                        for player_ws in room["players"].values():
+                            await player_ws.send_text(start_game_msg)
+                        print(f"Game started in room {room_id}")
+            except json.JSONDecodeError:
+                print("Ошибка парсинга JSON:", data)
+
     except Exception as e:
         print(f"Connection error: {e}")
     finally:

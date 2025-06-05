@@ -16,6 +16,7 @@ def include_routers():
     from src.cards.view import router as card_router
     from src.game.rooms import router as game_router
     from src.game.sockets import router as game_socket_router
+
     app.include_router(game_socket_router)
     app.include_router(card_router)
     app.include_router(game_router)
@@ -40,7 +41,7 @@ include_routers()
 create_data()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

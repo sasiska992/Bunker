@@ -2,32 +2,51 @@ import React, { useEffect, useState } from 'react';
 import Logo from './modules/Logo';
 import TabsWithCards from './modules/TabsWithCards';
 import MyCards from './modules/MyCards';
+import PreLoader from './modules/PreLoader';
+import Error from './modules/Error';
 
 const GoGame = ({value, onChange, res}) => {
     const [loading, setLoading] = useState(true);
+    const [showError, setShowError] = useState(false);
+    console.log(res)
     useEffect(() => {
-        setLoading(false);
-    }, []);
+        if (res !== undefined) {
+            setLoading(false);
+            setShowError(false);
+        } else {
+            const timeout = setTimeout(() => {
+                setLoading(false);
+                setShowError(true);
+            }, 8000);
+            return () => clearTimeout(timeout);
+        }
+    }, [res]);
     const handlePrev = () => {
         value = 3;
         onChange(value);
     }
+
+    if(loading)
+        return <PreLoader/>
+
+    if (showError || !res || Object.keys(res).length === 0 || res.detail) 
+        return <Error/>
     return (
         <>
             {!loading ? 
             <section className="game">
             <div className="cards">
-                <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+                <img src="/img/historyImg.jpg" alt="image" className='section-img'/>
                 <Logo/>
                 <div className="section-h2">Карточки игрока</div>
                 <div className="darkFon">
                     <MyCards res={res}/>
                 </div>
                 <button onClick={handlePrev} className="prev">
-                    <img src="./img/arrow.svg" alt="next" />
+                    <img src="/img/arrow.svg" alt="next" />
                 </button>
                 <a href="#continue" className="Down">
-                    <img src="./img/down.png" alt="icon" />
+                    <img src="/img/down.png" alt="icon" />
                 </a>
                 <a href="#continue" className="down"></a>
             </div>
@@ -38,7 +57,7 @@ const GoGame = ({value, onChange, res}) => {
                 Ситуация накалилась до предела. Я знал, что выбор, который нам предстояло сделать, определит не только нашу судьбу, но и судьбу всего человечества. В этот момент я понял: в бункере не только искали спасение, но и формировалась новая реальность, где каждый шаг мог стать решающим.
             </div>
             <div className="tabs-cards">
-                <img src="./img/tabsImg.jpeg" alt="image" className='section-img'/>
+                <img src="/img/tabsImg.jpeg" alt="image" className='section-img'/>
                 <TabsWithCards/>
             </div>
         </section>

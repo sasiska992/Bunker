@@ -8,22 +8,20 @@ const MyCards = ({res}) => {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const json = await res.json();
 
         const mappedCards = [
-          { id: 1, category: "Пол", title: json.sex },
-          { id: 2, category: "Возраст", title: json.age },
-          { id: 3, category: "Здоровье", title: json.health },
-          { id: 4, category: "Профессия", title: json.profession },
-          { id: 5, category: "Инвентарь", title: json.inventory },
-          { id: 6, category: "Фобия", title: json.phobia },
-          { id: 7, category: "Хобби", title: json.hobby },
-          { id: 8, category: "Нарушение закона", title: json.violation_of_law },
-          { id: 9, category: "Доп. информация", title: json.additional_information },
-          { id: 10, category: "Вредная привычка", title: json.bad_habits },
-          // { id: 11, category: "Особое условие", title: json.special_condition },
-          { id: 11, category: "Опыт", title: json.work_experience },
-          { id: 12, category: "Последствия катастрофы", title: json.impact_of_disaster },
+          { id: 1, category: "Пол", title: res.sex },
+          { id: 2, category: "Возраст", title: res.age },
+          { id: 3, category: "Здоровье", title: res.health },
+          { id: 4, category: "Профессия", title: res.profession },
+          { id: 5, category: "Инвентарь", title: res.inventory },
+          { id: 6, category: "Фобия", title: res.phobia },
+          { id: 7, category: "Хобби", title: res.hobby },
+          { id: 8, category: "Нарушение закона", title: res.violation_of_law },
+          { id: 9, category: "Доп. информация", title: res.additional_information },
+          { id: 10, category: "Вредная привычка", title: res.bad_habits },
+          { id: 11, category: "Опыт", title: res.work_experience },
+          { id: 12, category: "Последствия катастрофы", title: res.impact_of_disaster }
         ];
 
         setCardsData(mappedCards);

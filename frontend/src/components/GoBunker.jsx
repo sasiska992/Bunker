@@ -22,7 +22,7 @@ const GoBunker = ({value, onChange, bunkerData}) => {
 
     return (
         <section className="bunker">
-        <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+        <img src="/img/historyImg.jpg" alt="image" className='section-img'/>
         <Logo/>
         <div className="section-h2">{bunkerData.bunker_title}</div>
         <div className="darkFon darkFon15">
@@ -34,7 +34,7 @@ const GoBunker = ({value, onChange, bunkerData}) => {
             <div className="darkFon-wrapper">
                 <div className="details">
                     <div className="inform">
-                        <img src="./img/inform.svg" alt="icon" />
+                        <img src="/img/inform.svg" alt="icon" />
                         {bunkerData.additional_information && bunkerData.additional_information.map((info, index) => (
                             <React.Fragment key={index}>
                                 - {info} <br />
@@ -42,7 +42,7 @@ const GoBunker = ({value, onChange, bunkerData}) => {
                         ))}
                     </div>
                     <div className="inform">
-                        <img src="./img/equipment.svg" alt="icon" />
+                        <img src="/img/equipment.svg" alt="icon" />
                         {bunkerData.tools && bunkerData.tools.map((info, index) => (
                             <React.Fragment key={index}>
                                 - {info} <br />
@@ -50,10 +50,10 @@ const GoBunker = ({value, onChange, bunkerData}) => {
                         ))}
                     </div>
                 </div>
-                <img src="./img/radiation.svg" alt="icon" className='radiation' />
+                <img src="/img/radiation.svg" alt="icon" className='radiation' />
                 <div className="points">
                     <div className="clarification">
-                        <img src="./img/chair.png" alt="icon" />
+                        <img src="/img/chair.png" alt="icon" />
                         <div className="chairs">
                             Количество мест <br />
                             <div className="kol">
@@ -62,14 +62,14 @@ const GoBunker = ({value, onChange, bunkerData}) => {
                         </div>
                     </div>
                     <div className="clarification">
-                        <img src="./img/size.svg" alt="icon"  style={{width: 55}}/>
+                        <img src="/img/size.svg" alt="icon"  style={{width: 55}}/>
                         <div className="">
                             Размер бункера <br />
                             {bunkerData.size}м
                         </div>
                     </div>
                     <div className="clarification">
-                        <img src="./img/food.svg" alt="icon" />
+                        <img src="/img/food.svg" alt="icon" />
                         <div className="">
                             Запас еды <br />
                             10 лет 10 месяцев
@@ -80,11 +80,11 @@ const GoBunker = ({value, onChange, bunkerData}) => {
         </div>
 
         <button onClick={handlePrev} className="prev">
-            <img src="./img/arrow.svg" alt="next" />
+            <img src="/img/arrow.svg" alt="next" />
         </button>
 
         <button onClick={handleNext} className="next">
-            <img src="./img/arrow.svg" alt="next" />
+            <img src="/img/arrow.svg" alt="next" />
         </button>
     </section>
     );

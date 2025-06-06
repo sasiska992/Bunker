@@ -1,22 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Error = ({firstValue, firstOnChange}) => {
+const Error = () => {
+    const navigate = useNavigate();
     const handleclick = () => {
-        window.history.pushState({}, '', '/');
-        firstValue = 1;
-        firstOnChange(firstValue);
+        navigate('/');
     }
     return (
         <div className='error'>
             <h1>Error Page</h1>
-            <p class="zoom-area">Произошло что-то непредвиденное</p>
-            <section class="error-container">
-                <span class="four"><span class="screen-reader-text">4</span></span>
-                <span class="zero"><span class="screen-reader-text">0</span></span>
-                <span class="four"><span class="screen-reader-text">4</span></span>
+            <p className="zoom-area">Произошло что-то непредвиденное</p>
+            <section className="error-container">
+                <span className="four"><span className="screen-reader-text">4</span></span>
+                <span className="zero"><span className="screen-reader-text">0</span></span>
+                <span className="four"><span className="screen-reader-text">4</span></span>
             </section>
             <button onClick={handleclick} className="return">
-                <img src="./img/return.svg" alt="return" />
+                <img src="/img/return.svg" alt="return" />
             </button>
         </div>
     );

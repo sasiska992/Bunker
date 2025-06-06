@@ -1,10 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import Logo from './modules/Logo';
 
-function GoHistory({firstValue, firstOnChange, value, onChange}) {
-
+function GoHistory({ value, onChange}) {
+  const navigate = useNavigate()
   const handleclick = () => {
-    firstValue = 1;
-    firstOnChange(firstValue);
+    navigate('/');
   }
 
   const handleNext = () => {
@@ -14,7 +14,7 @@ function GoHistory({firstValue, firstOnChange, value, onChange}) {
 
   return (
     <section className="history">
-        <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+        <img src="/img/historyImg.jpg" alt="image" className='section-img'/>
         <Logo/>
         <div className="section-h2">Начало моей истории</div>
         <div className="darkFon">
@@ -28,11 +28,11 @@ function GoHistory({firstValue, firstOnChange, value, onChange}) {
         </div>
 
         <button onClick={handleclick} className="return">
-            <img src="./img/return.svg" alt="return" />
+            <img src="/img/return.svg" alt="return" />
         </button>
 
         <button onClick={handleNext} className="next">
-            <img src="./img/arrow.svg" alt="next" />
+            <img src="/img/arrow.svg" alt="next" />
         </button>
     </section>
   );

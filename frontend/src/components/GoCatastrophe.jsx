@@ -18,7 +18,7 @@ const GoCatastrophe = ({value, onChange, catastropheData}) => {
 
     return (
         <section className="catastrophe">
-        <img src="./img/historyImg.jpg" alt="image" className='section-img'/>
+        <img src="/img/historyImg.jpg" alt="image" className='section-img'/>
         <Logo/>
         <div className="section-h2">Катастрофа</div>
         <div className="darkFon">
@@ -29,11 +29,11 @@ const GoCatastrophe = ({value, onChange, catastropheData}) => {
                 </div>
                 <div className="details">
                     <div className="clarification">
-                        <img src="./img/time.svg" alt="icon" />
+                        <img src="/img/time.svg" alt="icon" />
                         Время до решения: <br /> {catastropheData.residence_time}
                     </div>
                     <div className="inform">
-                        <img src="./img/inform.svg" alt="icon" />
+                        <img src="/img/inform.svg" alt="icon" />
                         {catastropheData.additional_information && catastropheData.additional_information.map((info, index) => (
                             <React.Fragment key={index}>
                                 - {info} <br />
@@ -45,11 +45,11 @@ const GoCatastrophe = ({value, onChange, catastropheData}) => {
         </div>
 
         <button onClick={handlePrev} className="prev">
-            <img src="./img/arrow.svg" alt="next" />
+            <img src="/img/arrow.svg" alt="next" />
         </button>
 
         <button onClick={handleNext} className="next">
-            <img src="./img/arrow.svg" alt="next" />
+            <img src="/img/arrow.svg" alt="next" />
         </button>
     </section>
     );

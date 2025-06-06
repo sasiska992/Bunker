@@ -21,10 +21,9 @@ const PersonCard = ({ category, title, child = 0 }) => {
                 <div className="title">{title}</div>
             </div>
 
-            {/* Задняя сторона карточки */}
             {child ? (
                 <div className="back">
-                    <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
+                    <img src="/img/bunkerLogo.svg" alt="bunkerIcon" />
                     <button>Open</button>
                 </div>
             ) : null}

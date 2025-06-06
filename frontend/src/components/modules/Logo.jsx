@@ -4,7 +4,7 @@ const Logo = () => {
     return (
         <div className="logo">
             Бункер
-            <img src="./img/bunkerLogo.svg" alt="bunkerIcon" />
+            <img src="/img/bunkerLogo.svg" alt="bunkerIcon" />
         </div>
     );
 };

@@ -15,11 +15,15 @@ app = FastAPI()
 def include_routers():
     from src.cards.view import router as card_router
     from src.game.rooms import router as game_router
-    from src.game.sockets import router as game_socket_router
+    from src.game.sockets import router as socket_router
+    from src.game.bunker import router as bunker_router
+    from src.game.catastrophe import router as catastrophe_router
 
-    app.include_router(game_socket_router)
+    app.include_router(socket_router)
     app.include_router(card_router)
     app.include_router(game_router)
+    app.include_router(bunker_router)
+    app.include_router(catastrophe_router)
 
 
 # if __name__ == "__main__":

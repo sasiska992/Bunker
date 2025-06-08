@@ -13,6 +13,8 @@ Session = scoped_session(sessionmaker(bind=engine))
 def create_data():
     from src.models.base import Base
     from src.models.rooms import Rooms
+    from src.models.catastrophe import Catastrophe
+    from src.models.bunker import Bunker
 
     # Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)

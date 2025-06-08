@@ -47,8 +47,20 @@ class Base(DeclarativeBase):
         """Выбирает один объект по заданному ключу."""
         try:
             with Session() as session:
-                result = session.query(cls).filter(getattr(cls, column) == value).first()
+                result = (
+                    session.query(cls).filter(getattr(cls, column) == value).first()
+                )
                 return result
         except SQLAlchemyError as e:
             print(f"Error selecting object: {e}")
             return None
+
+    @classmethod
+    def all_values(cls):
+        try:
+            with Session() as session:
+                result = session.query(cls).all()
+                return result
+        except SQLAlchemyError as e:
+            print(f"Error updating values: {e}")
+            session.rollback()  # Откатываем изменения в случае ошибки

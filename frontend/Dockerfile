@@ -9,5 +9,8 @@ COPY . .
 
 EXPOSE 3000
 
+
+CMD ["npm", "install"]
+
 ENTRYPOINT [ "npm" ]
 CMD ["start"]

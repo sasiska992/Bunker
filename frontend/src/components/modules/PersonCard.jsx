@@ -17,7 +17,7 @@ const PersonCard = ({ category, title, child = 0 }) => {
                     <div className="category">{category}</div>
                     <div className="line"></div>
                 </div>
-                <img src={`/img/${category}.svg`} className={category === 'Доп. информация' ? 'minImg' : ''} alt={category} />
+                <img src={`/img/${category}.svg`} className={category === 'Доп. информация' || category === 'Последствия катастрофы' ? 'minImg' : ''} alt={category} />
                 <div className="front-wrapper">
                     <div className="line"></div>
                     <div className="title">{title}</div>

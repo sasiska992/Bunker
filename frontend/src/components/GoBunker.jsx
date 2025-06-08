@@ -6,7 +6,7 @@ const GoBunker = ({value, onChange, bunkerData}) => {
 
     const renderBlocks = () => {
         return Array.from({ length: bunkerData.number_of_seats }, (_, index) => (
-            <div className="site-wrap"><img src="./img/wheel-chair.png" alt="site" /></div>
+            <div key={index} className="site-wrap"><img src="/img/wheel-chair.png" alt="site" /></div>
         ));
     };
     const handleNext = () => {

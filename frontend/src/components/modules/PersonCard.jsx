@@ -12,13 +12,16 @@ const PersonCard = ({ category, title, child = 0 }) => {
             className={`personCard ${!isOpen ? 'personCard-close' : ''}`}
             onClick={child ? toggleCard : undefined}
         >
-            {/* Передняя сторона карточки */}
             <div className="front">
-                <div className="category">{category}</div>
-                <div className="line"></div>
-                <img src={`/img/${category}.svg`} alt={category} />
-                <div className="line"></div>
-                <div className="title">{title}</div>
+                <div className="front-wrapper">
+                    <div className="category">{category}</div>
+                    <div className="line"></div>
+                </div>
+                <img src={`/img/${category}.svg`} className={category === 'Доп. информация' ? 'minImg' : ''} alt={category} />
+                <div className="front-wrapper">
+                    <div className="line"></div>
+                    <div className="title">{title}</div>
+                </div>
             </div>
 
             {child ? (

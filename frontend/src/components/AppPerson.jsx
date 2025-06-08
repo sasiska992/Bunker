@@ -6,6 +6,7 @@ import GoBunker from "./GoBunker";
 import GoGame from "./GoGame";
 import PreLoader from "./modules/PreLoader";
 import Error from "./modules/Error";
+import { useWebSocket } from "./hooks/useWebSocket";
 
 const AppPerson = () => {
   const { roomId } = useParams();
@@ -15,6 +16,10 @@ const AppPerson = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [res, setRes] = useState()
+
+  const socketRef = useWebSocket(roomId, (data) => {
+    console.log("[Game WS Data]", data);
+  });
 
   useEffect(() => {
     const fetchData = async () => {

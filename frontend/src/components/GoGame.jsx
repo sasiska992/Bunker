@@ -17,7 +17,7 @@ const GoGame = ({value, onChange, res}) => {
             const timeout = setTimeout(() => {
                 setLoading(false);
                 setShowError(true);
-            }, 8000);
+            }, 20000);
             return () => clearTimeout(timeout);
         }
     }, [res]);

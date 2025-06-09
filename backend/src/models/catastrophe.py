@@ -9,6 +9,7 @@ class Catastrophe(Base):
     id: Mapped[int] = mapped_column(Integer(), primary_key=True)
     room_id: Mapped[str] = mapped_column(ForeignKey("rooms.id"))  # связь с комнатой
     catastrophe_title: Mapped[str] = mapped_column(String(255))
+    residence_time: Mapped[str] = mapped_column(String(255))
     catastrophe_description: Mapped[str] = mapped_column(Text())
     additional_information: Mapped[str] = mapped_column(Text(), nullable=True)
 
@@ -19,6 +20,7 @@ class Catastrophe(Base):
         self,
         room_id: str,
         catastrophe_title: str,
+        residence_time: str,
         catastrophe_description: str,
         additional_information: str,
     ):
@@ -28,6 +30,7 @@ class Catastrophe(Base):
         self.additional_information = (
             additional_information  # дополнительная информация
         )
+        self.residence_time = residence_time  # время нахождения в бункере
 
     def __repr__(self):
         return (

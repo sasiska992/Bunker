@@ -5,6 +5,7 @@ import PreLoader from './modules/PreLoader';
 const GoBunker = ({value, onChange, bunkerData}) => {
 
     const renderBlocks = () => {
+        console.log(bunkerData.number_of_seats);
         return Array.from({ length: bunkerData.number_of_seats }, (_, index) => (
             <div key={index} className="site-wrap"><img src="/img/wheel-chair.png" alt="site" /></div>
         ));
@@ -77,7 +78,7 @@ const GoBunker = ({value, onChange, bunkerData}) => {
                         <img src="/img/size.svg" alt="icon"  style={{width: 55}}/>
                         <div className="">
                             Размер бункера <br />
-                            {bunkerData.size}м
+                            {bunkerData.size}м²
                         </div>
                     </div>
                     <div className="clarification">

@@ -30,7 +30,9 @@ const GoCatastrophe = ({value, onChange, catastropheData}) => {
                 <div className="details">
                     <div className="clarification">
                         <img src="/img/time.svg" alt="icon" />
-                        Время до решения: <br /> {catastropheData.residence_time}
+                        Время до решения:
+                        <br />
+                        {catastropheData.residence_time ? catastropheData.residence_time : 'Информация о времени не указана'}
                     </div>
                     <div className="inform">
                         <img src="/img/inform.svg" alt="icon" />

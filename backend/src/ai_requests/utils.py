@@ -1,28 +1,16 @@
 import json
 import os
-from typing import Literal
 from src.ai_requests.ai_requests import (
     create_ai_player_cards,
     create_ai_catastrophe_description,
     create_ai_bunker_description,
+    create_ai_start_story,
 )
 
 import requests
 
 from src.models.bunker import Bunker
 from src.models.catastrophe import Catastrophe
-
-
-def get_request(title: Literal["player_card"]) -> str:
-    """
-
-    :param title: The title for AI request. You can take it form backend/src/ai_requests
-    :return: AI request
-    """
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), title + ".txt")
-
-    with open(path, "r", encoding="UTF-8") as file:
-        return " ".join(file.readlines())
 
 
 def send_ai_request(promt) -> dict:
@@ -77,27 +65,49 @@ def send_ai_request(promt) -> dict:
     return data
 
 
-def generate_ai_catastrophe_description():
+def generate_ai_catastrophe_description() -> dict:
     promt = create_ai_catastrophe_description()
 
     return send_ai_request(promt)
 
 
-def generate_ai_bunker_description(room_id: str):
-    catastrophe_data = Catastrophe.select_for_one_key("room_id", room_id)
+def generate_ai_bunker_description(room_id: str) -> dict:
+    try:
+        catastrophe_data = Catastrophe.select_for_one_key("room_id", room_id)
+    except Exception as e:
+        raise ValueError(f"\n\nОшибка при получении данных о катастрофе: {e}\n\n")
+    if catastrophe_data is None:
+        raise ValueError("\n\nКатастрофа не найдена!!! ВНИМАНИЕ!!!\n\n")
+
     promt = create_ai_bunker_description(catastrophe_data=catastrophe_data)
 
     return send_ai_request(promt)
 
 
 def generate_ai_player_card(room_id: str):
-
-    bunker_data = Bunker.select_for_one_key("room_id", room_id)
-    catastrophe_data = Catastrophe.select_for_one_key("room_id",room_id)
-
+    try:
+        bunker_data = Bunker.select_for_one_key("room_id", room_id)
+        catastrophe_data = Catastrophe.select_for_one_key("room_id", room_id)
+    except Exception as e:
+        raise ValueError(f"\n\nОшибка при получении данных о катастрофе: {e}\n\n")
+    if catastrophe_data is None or bunker_data is None:
+        raise ValueError("\n\nКатастрофа или бункер не найдены!!! ВНИМАНИЕ!!!\n\n")
     promt = create_ai_player_cards(
         catastrophe_data=catastrophe_data, bunker_data=bunker_data
     )
 
     return send_ai_request(promt)
-    return " "
+
+
+def generate_ai_start_story(room_id: str):
+    try:
+        bunker_data = Bunker.select_for_one_key("room_id", room_id)
+        catastrophe_data = Catastrophe.select_for_one_key("room_id", room_id)
+    except Exception as e:
+        raise ValueError(f"\n\nОшибка при получении данных о катастрофе: {e}\n\n")
+    if catastrophe_data is None or bunker_data is None:
+        raise ValueError("\n\nКатастрофа или бункер не найдены!!! ВНИМАНИЕ!!!\n\n")
+    promt = create_ai_start_story(
+        catastrophe_data=catastrophe_data, bunker_data=bunker_data
+    )
+    return send_ai_request(promt)

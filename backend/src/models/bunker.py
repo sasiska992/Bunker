@@ -10,7 +10,6 @@ class Bunker(Base):
     room_id: Mapped[str] = mapped_column(ForeignKey("rooms.id"))  # связь с комнатой
     bunker_title: Mapped[str] = mapped_column(String(255))
     bunker_description: Mapped[str] = mapped_column(Text())
-    residence_time: Mapped[str] = mapped_column(Text())
     additional_information: Mapped[str] = mapped_column(Text(), nullable=True)
     tools: Mapped[str] = mapped_column(Text())
     size: Mapped[int] = mapped_column(Integer())  # в квадратных метрах
@@ -24,7 +23,6 @@ class Bunker(Base):
         room_id: str,
         bunker_title: str,
         bunker_description: str,
-        residence_time: str,
         additional_information: str,
         tools: str,
         size: int,
@@ -33,7 +31,6 @@ class Bunker(Base):
         self.room_id = room_id
         self.bunker_title = bunker_title
         self.bunker_description = bunker_description  # описание бункера
-        self.residence_time = residence_time  # время нахождения в бункере
         self.additional_information = (
             additional_information  # дополнительная информация
         )

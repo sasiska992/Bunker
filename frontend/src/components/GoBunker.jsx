@@ -35,18 +35,30 @@ const GoBunker = ({value, onChange, bunkerData}) => {
                 <div className="details">
                     <div className="inform">
                         <img src="/img/inform.svg" alt="icon" />
-                        {bunkerData.additional_information && bunkerData.additional_information.map((info, index) => (
-                            <React.Fragment key={index}>
-                                - {info} <br />
-                            </React.Fragment>
+                        {(
+                        Array.isArray(bunkerData.additional_information)
+                            ? bunkerData.additional_information
+                            : bunkerData.additional_information
+                            ? [bunkerData.additional_information]
+                            : []
+                        ).map((info, index) => (
+                        <React.Fragment key={index}>
+                            - {info} <br />
+                        </React.Fragment>
                         ))}
                     </div>
                     <div className="inform">
                         <img src="/img/equipment.svg" alt="icon" />
-                        {bunkerData.tools && bunkerData.tools.map((info, index) => (
-                            <React.Fragment key={index}>
-                                - {info} <br />
-                            </React.Fragment>
+                        {(
+                        Array.isArray(bunkerData.tools)
+                            ? bunkerData.tools
+                            : bunkerData.tools
+                            ? [bunkerData.tools]
+                            : []
+                        ).map((info, index) => (
+                        <React.Fragment key={index}>
+                            - {info} <br />
+                        </React.Fragment>
                         ))}
                     </div>
                 </div>

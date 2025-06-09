@@ -10,6 +10,14 @@ origins = [
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Определите функцию для включения маршрутизатора
 def include_routers():
@@ -43,11 +51,5 @@ def include_routers():
 include_routers()
 
 create_data()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 # uvicorn.run(app, host="127.0.0.1", port=8000, workers=1)

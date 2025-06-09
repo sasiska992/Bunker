@@ -34,9 +34,12 @@ const GoCatastrophe = ({value, onChange, catastropheData}) => {
                     </div>
                     <div className="inform">
                         <img src="/img/inform.svg" alt="icon" />
-                        {catastropheData.additional_information && catastropheData.additional_information.map((info, index) => (
+                        {(Array.isArray(catastropheData.additional_information)
+                            ? catastropheData.additional_information
+                            : [catastropheData.additional_information]  // оборачиваем строку в массив
+                        ).map((info, index) => (
                             <React.Fragment key={index}>
-                                - {info} <br />
+                            - {info} <br />
                             </React.Fragment>
                         ))}
                     </div>

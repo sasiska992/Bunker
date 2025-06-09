@@ -29,73 +29,55 @@ const AppPerson = () => {
     }
   });
 
-  // useEffect(() => {
-  //   if (error) {
-  //     const timeout = setTimeout(() => {
-  //       window.location.reload();
-  //     }, 12000);
-  
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [error]);
-
   useEffect(() => {
-    const fetchWorldData = async () => {
+    const loadData = async () => {
       try {
-        const [catastropheRes, bunkerRes] = await Promise.all([
-          fetch(`http://127.0.0.1:8000/catastrophe_info?room_id=${roomId}`),
-          fetch(`http://127.0.0.1:8000/bunker_info?room_id=${roomId}`)
+        // Шаг 1: Загрузка катастрофы
+        const catastropheRes = await fetch(`http://127.0.0.1:8000/catastrophe_info?room_id=${roomId}`);
+        if (!catastropheRes.ok) throw new Error("Ошибка при получении данных о катастрофе");
+        const catastropheJson = await catastropheRes.json();
+        setCatastropheData(catastropheJson);
+
+        // Шаг 2: Загрузка бункера
+        const bunkerRes = await fetch(`http://127.0.0.1:8000/bunker_info?room_id=${roomId}`);
+        if (!bunkerRes.ok) throw new Error("Ошибка при получении данных о бункере");
+        const bunkerJson = await bunkerRes.json();
+        setBunkerData(bunkerJson);
+
+        // Шаг 3: Параллельная загрузка карточек игроков (например AI)
+        const [playerRes] = await Promise.all([
+          fetch(`http://127.0.0.1:8000/create_ai_player_cards?room_id=${roomId}`),
         ]);
 
-        if (!catastropheRes.ok || !bunkerRes.ok) {
-          throw new Error("Ошибка при получении данных о мире");
-        }
+        if (!playerRes.ok) throw new Error("Ошибка при получении карточки игрока");
 
-        const catastropheJson = await catastropheRes.json();
-        const bunkerJson = await bunkerRes.json();
-
-        setCatastropheData(catastropheJson);
-        setBunkerData(bunkerJson);
-        setLoading(false);
-
-      } catch (e) {
-        console.error("Ошибка при загрузке катастрофы/бункера:", e);
-        setError(e);
-        setLoading(false);
-      }
-    };
-
-    const timeoutId = setTimeout(() => {
-      fetchWorldData();
-    }, 12000);
-
-    return () => clearTimeout(timeoutId);
-  }, [roomId]);
-
-  useEffect(() => {
-    const fetchPlayer = async () => {
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/create_ai_player_cards?room_id=${roomId}`);
-        const data = await response.json();
-        const fullCard = { ...data, user_id: myUserId };
+        const playerData = await playerRes.json();
+        const fullCard = { ...playerData, user_id: myUserId };
         setRes(fullCard);
 
         socketRef.current?.send(JSON.stringify({
           type: "playerReady",
           data: fullCard
         }));
+
+        setLoading(false);
       } catch (err) {
-        console.error("Ошибка при получении карточки игрока:", err);
+        console.error("Ошибка при загрузке данных:", err);
+        setError(err);
+        setLoading(false);
       }
     };
 
-    fetchPlayer();
-  }, []);
+    // const timeoutId = setTimeout(loadData, 12000); // Задержка 12 секунд
+    const timeoutId = setTimeout(loadData, 1); // Какая-то загрузка
+
+    return () => clearTimeout(timeoutId);
+  }, [roomId]);
 
   if (loading || !catastropheData || !bunkerData) {
     return <PreLoader />;
   }
-  
+
   if (error) {
     return <Error />;
   }

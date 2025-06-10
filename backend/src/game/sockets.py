@@ -90,8 +90,26 @@ class ConnectionManager:
             "type": "sendAllIds",
             "ids": list(self.active_rooms[room_id]["players"].keys()),
         }
-        print(f"\n\n\nПришел запрос на получение id всех игроков в комнате {room_id} и вернулось {message.get("ids")}\n\n\n")
+        print(
+            f"\n\n\nПришел запрос на получение id всех игроков в комнате {room_id} и вернулось {message.get("ids")}\n\n\n"
+        )
         await ws.send_text(json.dumps(message))
+
+    async def _broadcast_open_card(self, room_id: str, user_id: str, card_id: int):
+        """Рассылает всем игрокам, что карточка открыта."""
+        if room_id not in self.active_rooms:
+            return
+
+        message = {
+            "type": "playersCards",
+            "user_id": user_id,
+            "card_id": card_id,
+        }
+
+        for ws in self.active_rooms[room_id]["players"].values():
+            await ws.send_text(json.dumps(message))
+
+        print("\n\nПользователь открыл карточку\n\n")
 
 
 manager = ConnectionManager()
@@ -138,6 +156,9 @@ async def websocket_endpoint(
 
                 elif message.get("type") == "getAllIds":
                     await manager._send_all_ids(room_id, websocket)
+
+                elif message.get("type") == "openCard":
+                    await manager._broadcast_open_card(room_id, user_id, message.get("card_id"))
 
             except json.JSONDecodeError:
                 print("---LEEEEE -> JSON parsing error:", data)

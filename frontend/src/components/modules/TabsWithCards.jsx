@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Tab from './Tab';
 import PersonCard from './PersonCard';
+import PersonReverseCard from './PersonReverseCard';
 
 const TabsWithCards = ({ otherPlayers }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -49,10 +50,11 @@ const TabsWithCards = ({ otherPlayers }) => {
       >
         <div className="darkFon" ref={contentRef}>
           {currentCards.map((card, index) => (
-            <PersonCard
+            <PersonReverseCard
               key={`${card.category}-${index}`}
               category={card.category}
               title={card.title}
+              child={1}
             />
           ))}
         </div>

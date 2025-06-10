@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 
-const PersonCard = ({ category, title, child = 0 }) => {
-    const [isOpen, setIsOpen] = useState(true);
+const PersonReverseCard = ({ category, title, child = 0 }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
 
     const toggleCard = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(true);
     };
 
     return (
         <div
             className={`personCard ${!isOpen ? 'personCard-close' : ''}`}
-            onClick={child ? toggleCard : undefined}
         >
             <div className="front">
                 <div className="front-wrapper">
@@ -28,11 +27,10 @@ const PersonCard = ({ category, title, child = 0 }) => {
             {child ? (
                 <div className="back">
                     <img src="/img/bunkerLogo.svg" alt="bunkerIcon" />
-                    <button>Open</button>
                 </div>
             ) : null}
         </div>
     );
 };
 
-export default PersonCard;
+export default PersonReverseCard;

@@ -37,6 +37,8 @@ def send_ai_request(promt) -> dict:
     )
 
     # Получаем сырой ответ
+
+    print("Ответ от ИИ:", completion.json())  # Логируем для отладки
     raw_response = completion.json()["choices"][0]["message"]["content"]
     print("Ответ от ИИ:", raw_response)  # Логируем для отладки
 

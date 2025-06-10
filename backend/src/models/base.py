@@ -56,6 +56,17 @@ class Base(DeclarativeBase):
             return None
 
     @classmethod
+    def select_all_by_fields(cls, **kwargs):
+        try:
+            with Session() as session:
+                filters = [getattr(cls, key) == value for key, value in kwargs.items()]
+                result = session.query(cls).filter(*filters).all()
+                return result
+        except SQLAlchemyError as e:
+            print(f"Ошибка при выборке данных: {e}")
+            return []
+
+    @classmethod
     def all_values(cls):
         try:
             with Session() as session:

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from src.models.base import Base
 from sqlalchemy.orm import relationship
+from typing import List
 
 
 
@@ -15,6 +16,7 @@ class Rooms(Base):
         "Catastrophe", back_populates="room"
     )
     bunker: Mapped["Bunker"] = relationship("Bunker", back_populates="room")
+    player_cards: Mapped[List["PlayerCards"]] = relationship("PlayerCards", back_populates="room")
 
     def __init__(self, id: str, active_users: int = 0):
         self.id = id

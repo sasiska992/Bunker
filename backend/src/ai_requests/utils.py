@@ -13,45 +13,50 @@ from src.models.bunker import Bunker
 from src.models.catastrophe import Catastrophe
 
 
-def send_ai_request(promt) -> dict:
+def send_ai_request(prompt) -> dict:
     from settings import AI_TOKEN
 
-    # Запрашиваем данные у ИИ
-    model = "mistralai/mistral-7b-instruct-v0.2"
+    """
+    Отправляет запрос в DeepInfra и возвращает спаршенный JSON из ответа модели.
+    """
 
-    completion = requests.post(
-        url="https://openrouter.ai/api/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {AI_TOKEN}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": model,
-            "messages": [{"role": "user", "content": promt}],
-            "temperature": 0.8,
-            "max_tokens": 1024,
-            "response_format": {
-                "type": "text"  # Используем text, так как JSON не всегда поддерживается напрямую
-            },
-        },
-    )
+    # Адрес API
+    url = "https://api.deepinfra.com/v1/openai/chat/completions"
 
-    # Получаем сырой ответ
+    # Заголовки
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {AI_TOKEN}",
+    }
 
-    print("Ответ от ИИ:", completion.json())  # Логируем для отладки
-    raw_response = completion.json()["choices"][0]["message"]["content"]
-    print("Ответ от ИИ:", raw_response)  # Логируем для отладки
+    # Данные запроса
+    data = {
+        "model": "mistralai/Mistral-7B-Instruct-v0.2",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.8,
+        "max_tokens": 1024,
+    }
 
-    # Чистим ответ (удаляем Markdown-обрамление)
+    # Отправляем запрос
+    response = requests.post(url, headers=headers, json=data)
+
+    # Проверяем статус
+    if response.status_code != 200:
+        raise Exception(f"Ошибка API: {response.status_code}, {response.text}")
+
+    # Получаем raw ответ
+    raw_response = response.json()["choices"][0]["message"]["content"]
+    print("Ответ от ИИ:", raw_response)  # Для отладки
+
+    # Чистим ответ (удаляем Markdown)
     cleaned_response = raw_response.replace("```json", "").replace("```", "").strip()
 
-    # Пытаемся распарсить JSON
+    # Парсим JSON
     try:
-        # Пробуем распарсить весь ответ как есть
         data = json.loads(cleaned_response)
     except json.JSONDecodeError:
-        # Если не получилось — пробуем вырезать ПЕРВЫЙ JSON из ответа
         try:
+            # Ищем первый JSON-объект в строке
             start_idx = cleaned_response.find("{")
             end_idx = cleaned_response.rfind("}") + 1
             if start_idx != -1 and end_idx != -1:

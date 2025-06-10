@@ -132,7 +132,7 @@ def create_ai_player_cards(bunker_data: Bunker, catastrophe_data: Catastrophe):
   "impact_of_disaster": "Как катастрофа повлияла на него"
 }}
 
-ВАЖНО: Верни ТОЛЬКО JSON, без какого-либо дополнительного текста!
+ВАЖНО: Верни ТОЛЬКО JSON, без какого-либо дополнительного текста! И ВЕРНИ JSON полностью. Закрой json. ЭТО ВАЖНО!
 """
 
 

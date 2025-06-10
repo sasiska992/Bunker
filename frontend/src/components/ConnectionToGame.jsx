@@ -6,14 +6,23 @@ const ConnectionToGame = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
   const [players, setPlayers] = useState(1);
+  const [allUsers, setAllUsers] = useState([])
   const [check, setCheck] = useState(false);
   const maxPlayers = 12;
 
   const socketRef = useWebSocket(roomId, (data) => {
+    socketRef.current.send(JSON.stringify({ type: 'getAllIds' }));
+    if (data.type === 'sendAllIds') setAllUsers(data.ids)
     if (data.type === 'roomState') setPlayers(data.count);
   });
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    const prepareRoom = await fetch(`http://127.0.0.1:8000/prepare_room?room_id=${roomId}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({user_ids: allUsers})
+    })
+
     socketRef.current.send(JSON.stringify({ type: 'startGame' }));
     navigate(`/game/${roomId}`);
   };

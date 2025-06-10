@@ -74,6 +74,20 @@ class ConnectionManager:
             await ws.send_text(json.dumps(message))
 
         print(f"Broadcasting playersCards ({len(cards)} players) to room {room_id}")
+    
+    async def _broadcast_to_room(self, room_id: str, message: Dict):
+        if room_id not in self.active_rooms:
+            return
+
+        message = {
+            "type": "worldPrepared",
+            "message": "startGame"
+        }
+
+        for ws in self.active_rooms[room_id]["players"].values():
+            await ws.send_text(json.dumps(message))
+
+        
         
 
 manager = ConnectionManager()
@@ -111,7 +125,10 @@ async def websocket_endpoint(
 
                     for ws in manager.active_rooms[room_id]["players"].values():
                         await ws.send_text(start_game_msg)
-
+                elif message.get("type") == "readyToStart":
+                    data = message.get("data")
+                    print("\n\nАдмин прислал, что можно начинать игру. СТАРУЕМММ!!!\n\n")
+                    await manager._broadcast_to_room(room_id, message)
             except json.JSONDecodeError:
                 print("---LEEEEE -> JSON parsing error:", data)
 

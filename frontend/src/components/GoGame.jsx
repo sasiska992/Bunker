@@ -74,7 +74,6 @@ const GoGame = ({ onChange, res, others }) => {
         <div className="tabs-cards">
           <img src="/img/tabsImg.jpeg" alt="image" className="section-img" />
           <TabsWithCards
-            myCards={formatCards(res)}
             otherPlayers={others.map(formatCards)}
           />
         </div>

@@ -34,7 +34,7 @@ def send_ai_request(prompt) -> dict:
         "model": "mistralai/Mistral-7B-Instruct-v0.2",
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.8,
-        "max_tokens": 1024,
+        "max_tokens": 2048,
     }
 
     # Отправляем запрос

@@ -44,7 +44,7 @@ const AppPerson = () => {
         const bunkerJson = await bunkerRes.json();
         setBunkerData(bunkerJson);
 
-        // Шаг 3: Параллельная загрузка карточек игроков (например AI)
+
         const [playerRes] = await Promise.all([
           fetch(`http://127.0.0.1:8000/create_ai_player_cards?room_id=${roomId}`),
         ]);

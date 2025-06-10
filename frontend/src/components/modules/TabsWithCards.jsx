@@ -2,26 +2,28 @@ import React, { useEffect, useRef, useState } from 'react';
 import Tab from './Tab';
 import PersonCard from './PersonCard';
 
-const TabsWithCards = ({ myCards, otherPlayers }) => {
-  const [activeTab, setActiveTab] = useState("tab0");
+const TabsWithCards = ({ otherPlayers }) => {
+  const [activeTab, setActiveTab] = useState(0);
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState('auto');
 
-  const tabs = [{ id: "tab0", label: "Вы" }, ...otherPlayers.map((_, index) => ({
-    id: `tab${index + 1}`,
-    label: `Игрок ${index + 1}`
-  }))];
-
-  const getTabCards = () => {
-    if (activeTab === "tab0") return myCards;
-    const index = parseInt(activeTab.replace("tab", ""), 10) - 1;
-    return otherPlayers[index] || [];
+  const getProfession = (cards) => {
+    const profCard = cards.find(card => card.category === "Профессия");
+    if (!profCard || !profCard.title) return "Игрок";
+    return profCard.title.split(" ")[0].replace(/[,.:;]/g, '');
   };
+
+  const tabs = otherPlayers.map((playerCards, index) => ({
+    id: index,
+    label: getProfession(playerCards),
+    cards: playerCards
+  }));
+
+  const currentCards = tabs[activeTab]?.cards || [];
 
   useEffect(() => {
     if (contentRef.current) {
-      const newHeight = contentRef.current.offsetHeight;
-      setContentHeight(newHeight);
+      setContentHeight(contentRef.current.offsetHeight);
     }
   }, [activeTab]);
 
@@ -32,7 +34,7 @@ const TabsWithCards = ({ myCards, otherPlayers }) => {
           <Tab
             key={tab.id}
             label={tab.label}
-            isActive={activeTab === tab.id}
+            isActive={tab.id === activeTab}
             onClick={() => setActiveTab(tab.id)}
           />
         ))}
@@ -46,7 +48,7 @@ const TabsWithCards = ({ myCards, otherPlayers }) => {
         }}
       >
         <div className="darkFon" ref={contentRef}>
-          {getTabCards().map((card, index) => (
+          {currentCards.map((card, index) => (
             <PersonCard
               key={`${card.category}-${index}`}
               category={card.category}

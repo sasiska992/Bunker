@@ -8,23 +8,60 @@ const ConnectionToGame = () => {
   const [players, setPlayers] = useState(1);
   const [allUsers, setAllUsers] = useState([])
   const [check, setCheck] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false); 
   const maxPlayers = 12;
 
   const socketRef = useWebSocket(roomId, (data) => {
-    socketRef.current.send(JSON.stringify({ type: 'getAllIds' }));
-    if (data.type === 'sendAllIds') setAllUsers(data.ids)
     if (data.type === 'roomState') setPlayers(data.count);
   });
 
   const handleStart = async () => {
-    const prepareRoom = await fetch(`http://127.0.0.1:8000/prepare_room?room_id=${roomId}`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({user_ids: allUsers})
-    })
-
-    socketRef.current.send(JSON.stringify({ type: 'startGame' }));
-    navigate(`/game/${roomId}`);
+    try {
+      // 1. Получаем ID всех игроков
+      const allUsers = await new Promise((resolve) => {
+        const handler = (data) => {
+          if (data.type === 'sendAllIds') {
+            socketRef.current.onmessage = null; // Удаляем обработчик
+            resolve(data.ids);
+          }
+        };
+        
+        socketRef.current.onmessage = (event) => {
+          handler(JSON.parse(event.data));
+        };
+        
+        socketRef.current.send(JSON.stringify({ type: 'getAllIds' }));
+      });
+  
+      console.log('Получены ID игроков:', allUsers);
+  
+      // 2. Подготавливаем комнату
+      const prepareResponse = await fetch(
+        `http://127.0.0.1:8000/prepare_room?room_id=${roomId}`, 
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({user_ids: allUsers}) // Теперь соответствует модели
+        }
+      );
+  
+      if (!prepareResponse.ok) {
+        const errorData = await prepareResponse.json();
+        throw new Error(errorData.detail || 'Ошибка подготовки комнаты');
+      }
+  
+      // 3. Запускаем игру
+      socketRef.current.send(JSON.stringify({ 
+        type: 'readyToStart',
+        data: { roomId }
+      }));
+  
+      navigate(`/game/${roomId}`);
+  
+    } catch (error) {
+      console.error('Ошибка при старте игры:', error);
+      alert(error.message);
+    }
   };
 
   const handleLeave = () => {

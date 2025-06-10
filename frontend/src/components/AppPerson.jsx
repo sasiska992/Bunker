@@ -53,9 +53,10 @@ const AppPerson = () => {
         setBunkerData(bunkerJson);
 
         // 3. Загрузка карточки игрока
-        const playerRes = await fetch(`http://127.0.0.1:8000/create_ai_player_cards?room_id=${roomId}&user_id=${user_id}`);
+        const playerRes = await fetch(`http://127.0.0.1:8000/create_ai_player_card?room_id=${roomId}&user_id=${user_id}`);
         if (!playerRes.ok) throw new Error("Failed to load player card");
-        const playerData = await playerRes.json();
+        let playerData = await playerRes.json();
+        playerData = playerData.result
         
         const fullCard = { ...playerData, user_id };
         setPlayerCard(fullCard);

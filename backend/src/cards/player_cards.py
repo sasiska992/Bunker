@@ -94,21 +94,21 @@ def create_ai_player_cards(room_id: str):
     user_id = str(random.randint(1, 100))
     if PlayerCards.select_for_one_key(column="user_id", value=user_id):
         return {"status": 400, "message": "Игрок уже имеет карточку в комнате"}
-    res = generate_ai_player_card(room_id=room_id)
-    # res = {
-    #     "sex": "Женщина",
-    #     "age": "31",
-    #     "health": "Алкоголизм",
-    #     "profession": "Медсестра",
-    #     "inventory": "Кукла Вуду",
-    #     "phobia": "Боязнь призраков / духов",
-    #     "hobby": "Часто смотрит GustBusters",
-    #     "violation_of_law": "Отсутствует",
-    #     "additional_information": "Взломала базу данных ЦРУ",
-    #     "bad_habits": "Отсутствует",
-    #     "work_experience": "10 лет",
-    #     "impact_of_disaster": "Потерял семью",
-    # }
+    # res = generate_ai_player_card(room_id=room_id)
+    res = {
+        "sex": "Женщина",
+        "age": "31",
+        "health": "Алкоголизм",
+        "profession": "Медсестра",
+        "inventory": "Кукла Вуду",
+        "phobia": "Боязнь призраков / духов",
+        "hobby": "Часто смотрит GustBusters",
+        "violation_of_law": "Отсутствует",
+        "additional_information": "Взломала базу данных ЦРУ",
+        "bad_habits": "Отсутствует",
+        "work_experience": "10 лет",
+        "impact_of_disaster": "Потерял семью",
+    }
 
     player_card = PlayerCards(
         user_id=user_id,

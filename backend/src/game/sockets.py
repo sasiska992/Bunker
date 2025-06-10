@@ -90,7 +90,7 @@ class ConnectionManager:
             "type": "sendAllIds",
             "ids": list(self.active_rooms[room_id]["players"].keys()),
         }
-
+        print(f"\n\n\nПришел запрос на получение id всех игроков в комнате {room_id} и вернулось {message.get("ids")}\n\n\n")
         await ws.send_text(json.dumps(message))
 
 

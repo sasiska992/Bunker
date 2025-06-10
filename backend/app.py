@@ -26,6 +26,8 @@ def include_routers():
     from src.cards.player_cards import router as card_router
     from src.cards.bunker import router as bunker_router
     from src.cards.catastrophe import router as catastrophe_router
+
+    from src.cards.prepare_room import router as prepare_room_router
     
     from src.stories.view import router as story_router
 
@@ -35,6 +37,8 @@ def include_routers():
     app.include_router(card_router)
     app.include_router(bunker_router)
     app.include_router(catastrophe_router)
+
+    app.include_router(prepare_room_router)
 
     app.include_router(story_router)
 

@@ -19,10 +19,17 @@ const AppPerson = () => {
   const [bunkerData, setBunkerData] = useState(null);
   const [playerCard, setPlayerCard] = useState(null);
   const [playersCards, setPlayersCards] = useState([]);
+  const [allPlayers, setAllPlayers] = useState([])
 
   const socketRef = useWebSocket(roomId, (data) => {
     if (data.type === "playersCards") {
       setPlayersCards(data.cards);
+      const allUserIds = [
+        playerCard?.user_id,
+        ...data.cards.map(card => card.user_id)
+      ];
+      const uniqueUserIds = [...new Set(allUserIds)];
+      setAllPlayers(uniqueUserIds); 
     }
   });
 
@@ -73,6 +80,9 @@ const AppPerson = () => {
 
     loadData();
   }, [roomId]);
+
+
+  console.log(allPlayers.slice(1, ))
 
   if (error) {
     return (

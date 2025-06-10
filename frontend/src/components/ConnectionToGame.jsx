@@ -19,48 +19,40 @@ const ConnectionToGame = () => {
     try {
       // 1. Получаем ID всех игроков
       const allUsers = await new Promise((resolve) => {
-        const handler = (data) => {
+        socketRef.current.send(JSON.stringify({ type: 'getAllIds' }));
+        const handler = (event) => {
+          const data = JSON.parse(event.data);
           if (data.type === 'sendAllIds') {
-            socketRef.current.onmessage = null; // Удаляем обработчик
+            socketRef.current.onmessage = null;
             resolve(data.ids);
           }
         };
-        
-        socketRef.current.onmessage = (event) => {
-          handler(JSON.parse(event.data));
-        };
-        
-        socketRef.current.send(JSON.stringify({ type: 'getAllIds' }));
+        socketRef.current.onmessage = handler;
       });
   
-      console.log('Получены ID игроков:', allUsers);
-  
       // 2. Подготавливаем комнату
-      const prepareResponse = await fetch(
-        `http://127.0.0.1:8000/prepare_room?room_id=${roomId}`, 
-        {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({user_ids: allUsers}) // Теперь соответствует модели
-        }
-      );
+      await fetch(`http://127.0.0.1:8000/prepare_room?room_id=${roomId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_ids: allUsers })
+      });
   
-      if (!prepareResponse.ok) {
-        const errorData = await prepareResponse.json();
-        throw new Error(errorData.detail || 'Ошибка подготовки комнаты');
+      const delay = async () => {
+        setTimeout(() => {
+
+        }, 1000)
       }
-  
-      // 3. Запускаем игру
-      socketRef.current.send(JSON.stringify({ 
-        type: 'readyToStart',
-        data: { roomId }
+      // 3. Отправляем команду ВСЕМ игрокам
+      socketRef.current.send(JSON.stringify({
+        type: 'startGame',
+        roomId
       }));
   
+      // 4. Переходим в игру
       navigate(`/game/${roomId}`);
   
     } catch (error) {
-      console.error('Ошибка при старте игры:', error);
-      alert(error.message);
+      console.error('Ошибка:', error);
     }
   };
 

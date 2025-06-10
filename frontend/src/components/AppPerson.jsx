@@ -22,8 +22,8 @@ const AppPerson = () => {
   const [allPlayers, setAllPlayers] = useState([])
 
   const socketRef = useWebSocket(roomId, (data) => {
-    if (data.type === "playersCards") {
-      setPlayersCards(data.cards);
+    if (data.type === "playersCards" && Array.isArray(data.cards)) {
+      setPlayersCards(data.cards || []);
       const allUserIds = [
         playerCard?.user_id,
         ...data.cards.map(card => card.user_id)

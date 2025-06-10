@@ -14,14 +14,13 @@ class ConnectionManager:
         await websocket.accept()
 
         if room_id not in self.active_rooms:
-            self.active_rooms[room_id] = {
-                "players": {},
-                "cards": {},
-                "max_players": 12
-            }
+            self.active_rooms[room_id] = {"players": {}, "cards": {}, "max_players": 12}
 
         # Если комната заполнена — разрываем соединение
-        if len(self.active_rooms[room_id]["players"]) >= self.active_rooms[room_id]["max_players"]:
+        if (
+            len(self.active_rooms[room_id]["players"])
+            >= self.active_rooms[room_id]["max_players"]
+        ):
             await websocket.close(code=4000, reason="Room is full")
             return
 
@@ -50,7 +49,7 @@ class ConnectionManager:
                 "type": "roomState",
                 "count": len(room["players"]),
                 "max_players": room["max_players"],
-                "room_id": room_id
+                "room_id": room_id,
             }
 
             for ws in room["players"].values():
@@ -65,33 +64,35 @@ class ConnectionManager:
 
         cards = list(self.active_rooms[room_id]["cards"].values())
 
-        message = {
-            "type": "playersCards",
-            "cards": cards
-        }
+        message = {"type": "playersCards", "cards": cards}
 
         for ws in self.active_rooms[room_id]["players"].values():
             await ws.send_text(json.dumps(message))
 
         print(f"Broadcasting playersCards ({len(cards)} players) to room {room_id}")
-    
-    async def _broadcast_to_room(self, room_id: str): 
-        """Рассылает сообщение всем игрокам в комнате.
 
-        """
+    async def _broadcast_to_room(self, room_id: str):
+        """Рассылает сообщение всем игрокам в комнате."""
         if room_id not in self.active_rooms:
             return
 
-        message = {
-            "type": "worldPrepared",
-            "message": "startGame"
-        }
+        message = {"type": "worldPrepared", "message": "startGame"}
 
         for ws in self.active_rooms[room_id]["players"].values():
             await ws.send_text(json.dumps(message))
 
-        
-        
+    async def _send_all_ids(self, room_id: str, ws: WebSocket):
+        """Отправляет всем игрокам их id."""
+        if room_id not in self.active_rooms:
+            return
+
+        message = {
+            "type": "sendAllIds",
+            "ids": list(self.active_rooms[room_id]["players"].keys()),
+        }
+
+        await ws.send_text(json.dumps(message))
+
 
 manager = ConnectionManager()
 
@@ -100,7 +101,7 @@ manager = ConnectionManager()
 async def websocket_endpoint(
     websocket: WebSocket,
     room_id: str,
-    user_id: str = Query(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str = Query(default_factory=lambda: str(uuid.uuid4())),
 ):
     await manager.connect(websocket, room_id, user_id)
     try:
@@ -120,10 +121,9 @@ async def websocket_endpoint(
                     await manager._broadcast_players_cards(room_id)
 
                 elif message.get("type") == "startGame":
-                    start_game_msg = json.dumps({
-                        "type": "startGame",
-                        "room_id": room_id
-                    })
+                    start_game_msg = json.dumps(
+                        {"type": "startGame", "room_id": room_id}
+                    )
                     print(f"---Ихххали in room {room_id}")
 
                     for ws in manager.active_rooms[room_id]["players"].values():
@@ -131,8 +131,14 @@ async def websocket_endpoint(
                 # Сервер прислал, что данные готовы, их можно пулить с бека всем клиентам
                 elif message.get("type") == "readyToStart":
                     data = message.get("data")
-                    print("\n\nАдмин прислал, что можно начинать игру. СТАРУЕМММ!!!\n\n")
+                    print(
+                        "\n\nАдмин прислал, что можно начинать игру. СТАРУЕМММ!!!\n\n"
+                    )
                     await manager._broadcast_to_room(room_id)
+
+                elif message.get("type") == "getAllIds":
+                    await manager._send_all_ids(room_id, websocket)
+
             except json.JSONDecodeError:
                 print("---LEEEEE -> JSON parsing error:", data)
 

@@ -3,7 +3,7 @@ import Tab from './Tab';
 import PersonCard from './PersonCard';
 import PersonReverseCard from './PersonReverseCard';
 
-const TabsWithCards = ({ otherPlayers }) => {
+const TabsWithCards = ({ otherPlayers, socketRef }) => {
   const [activeTab, setActiveTab] = useState(0);
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState('auto');
@@ -55,6 +55,9 @@ const TabsWithCards = ({ otherPlayers }) => {
               category={card.category}
               title={card.title}
               child={1}
+              cardId={`${index}`}
+              activeTab={`${activeTab}`}
+              socketRef={socketRef}
             />
           ))}
         </div>

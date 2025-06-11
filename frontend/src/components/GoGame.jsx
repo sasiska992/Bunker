@@ -4,6 +4,8 @@ import TabsWithCards from './modules/TabsWithCards';
 import MyCards from './modules/MyCards';
 import PreLoader from './modules/PreLoader';
 import Error from './modules/Error';
+import { useWebSocket } from './hooks/useWebSocket';
+import { useParams } from 'react-router-dom';
 
 const formatCards = (data) => {
   return [
@@ -25,6 +27,11 @@ const formatCards = (data) => {
 const GoGame = ({ onChange, res, others }) => {
   const [loading, setLoading] = useState(true);
   const [showError, setShowError] = useState(false);
+  const {roomId} = useParams()
+  const socketRef = useWebSocket(roomId, (data) => {
+    if (data.type === "playersCards") {
+    }
+  });
 
   useEffect(() => {
     if (res !== undefined) {
@@ -54,7 +61,7 @@ const GoGame = ({ onChange, res, others }) => {
           <Logo />
           <div className="section-h2">Карточки игрока</div>
           <div className="darkFon">
-            <MyCards res={res} />
+            <MyCards socketRef={socketRef} res={res} />
           </div>
           <button onClick={handlePrev} className="prev">
             <img src="/img/arrow.svg" alt="prev" />
@@ -73,7 +80,7 @@ const GoGame = ({ onChange, res, others }) => {
 
         <div className="tabs-cards">
           <img src="/img/tabsImg.jpeg" alt="image" className="section-img" />
-          <TabsWithCards
+          <TabsWithCards socketRef={socketRef}
             otherPlayers={others.map(formatCards)}
           />
         </div>

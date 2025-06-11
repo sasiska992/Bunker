@@ -1,8 +1,27 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-const PersonCard = ({ category, title, child = 0 }) => {
+const PersonCard = ({ category, title, child = 0, cardId, socketRef }) => {
     const [isOpen, setIsOpen] = useState(true);
+    const {roomId} = useParams()
 
+    const handleOpenClick = (e) => {
+        e.stopPropagation();
+        if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+            if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+                socketRef.current.send(JSON.stringify({
+                  type: "openCard",
+                  card_id: cardId,
+                  room_id: roomId
+                }));
+          
+                console.log("📤 Отправили открытие карточки", cardId);
+              } 
+              else {
+                    console.warn("Сокет не подключен");
+              }
+        }
+    };
 
     const toggleCard = () => {
         setIsOpen(!isOpen);
@@ -28,7 +47,7 @@ const PersonCard = ({ category, title, child = 0 }) => {
             {child ? (
                 <div className="back">
                     <img src="/img/bunkerLogo.svg" alt="bunkerIcon" />
-                    <button>Open</button>
+                    <button onClick={handleOpenClick}>Open</button>
                 </div>
             ) : null}
         </div>

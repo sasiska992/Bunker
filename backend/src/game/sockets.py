@@ -95,21 +95,22 @@ class ConnectionManager:
         )
         await ws.send_text(json.dumps(message))
 
-    async def _broadcast_open_card(self, room_id: str, user_id: str, card_id: int):
+    async def _broadcast_open_card(self, room_id: str, user_id: str, card_id: int, tab_id: int):
         """Рассылает всем игрокам, что карточка открыта."""
         if room_id not in self.active_rooms:
             return
 
         message = {
-            "type": "playersCards",
+            "type": "cardOpened",
             "user_id": user_id,
             "card_id": card_id,
+            "tab_id": tab_id,  # <-- Добавили
         }
 
         for ws in self.active_rooms[room_id]["players"].values():
             await ws.send_text(json.dumps(message))
 
-        print("\n\nПользователь открыл карточку\n\n")
+        print(f"\n\n🟢 Пользователь {user_id} открыл карточку {card_id} (вкладка {tab_id})\n\n")
 
 
 manager = ConnectionManager()
@@ -158,7 +159,20 @@ async def websocket_endpoint(
                     await manager._send_all_ids(room_id, websocket)
 
                 elif message.get("type") == "openCard":
-                    await manager._broadcast_open_card(room_id, user_id, message.get("card_id"))
+                    card_id = message.get("card_id") - 1
+                    tab_id = message.get("tab_id", 0)
+
+                    print(f"🟢 Получено openCard от пользователя {user_id}, карточка: {card_id}, вкладка: {tab_id}")
+
+                    # Ответ подтверждения
+                    await websocket.send_text(json.dumps({
+                        "type": "cardOpenedConfirmation",
+                        "card_id": card_id,
+                        "message": f"Карточка {card_id} успешно открыта сервером."
+                    }))
+
+                    # Рассылаем всем с tab_id
+                    await manager._broadcast_open_card(room_id, user_id, card_id, tab_id)
 
             except json.JSONDecodeError:
                 print("---LEEEEE -> JSON parsing error:", data)

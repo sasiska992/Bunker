@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PersonCard from './PersonCard';
+import { useParams } from 'react-router-dom';
+import { useWebSocket } from '../hooks/useWebSocket';
 
-const MyCards = ({res}) => {
+const MyCards = ({res, socketRef}) => {
   const [cardsData, setCardsData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { roomId } = useParams();
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -34,7 +38,7 @@ const MyCards = ({res}) => {
     };
 
     fetchCards();
-  }, []);
+  }, [res]);
 
   if (loading) return;
 
@@ -46,6 +50,8 @@ const MyCards = ({res}) => {
           category={card.category}
           title={card.title}
           child={1}
+          cardId={card.id}
+          socketRef={socketRef}
         />
       ))}
     </>

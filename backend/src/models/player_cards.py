@@ -6,7 +6,7 @@ from src.models.base import Base
 class PlayerCards(Base):
     __tablename__ = "player_cards"
 
-    user_id: Mapped[int] = mapped_column(String(255), primary_key=True)
+    user_id: Mapped[int] = mapped_column(String(255), primary_key=True, index=True)
     room_id: Mapped[str] = mapped_column(ForeignKey("rooms.id"))
 
     sex: Mapped[str] = mapped_column(String(255))

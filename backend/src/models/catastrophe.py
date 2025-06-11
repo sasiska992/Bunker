@@ -6,7 +6,7 @@ from src.models.base import Base
 class Catastrophe(Base):
     __tablename__ = "catastrophes"
 
-    id: Mapped[int] = mapped_column(Integer(), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, index=True)
     room_id: Mapped[str] = mapped_column(ForeignKey("rooms.id"))  # связь с комнатой
     catastrophe_title: Mapped[str] = mapped_column(String(255))
     residence_time: Mapped[str] = mapped_column(String(255))

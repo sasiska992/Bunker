@@ -8,7 +8,7 @@ from typing import List
 
 class Rooms(Base):
     __tablename__ = "rooms"
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, index=True)
     active_users: Mapped[int] = mapped_column(Integer())
 
     catastrophe: Mapped["Catastrophe"] = relationship(

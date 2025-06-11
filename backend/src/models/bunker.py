@@ -6,7 +6,7 @@ from src.models.base import Base
 class Bunker(Base):
     __tablename__ = "bunkers"
 
-    id: Mapped[int] = mapped_column(Integer(), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, index=True)
     room_id: Mapped[str] = mapped_column(ForeignKey("rooms.id"))  # связь с комнатой
     bunker_title: Mapped[str] = mapped_column(String(255))
     bunker_description: Mapped[str] = mapped_column(Text())

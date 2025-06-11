@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const PersonCard = ({ category, title, child = 0, cardId, socketRef }) => {
+const PersonCard = ({ category, title, child = 0, cardId, socketRef, activeTab = 0 }) => {
     const [isOpen, setIsOpen] = useState(true);
     const {roomId} = useParams()
 
@@ -12,6 +12,7 @@ const PersonCard = ({ category, title, child = 0, cardId, socketRef }) => {
                 socketRef.current.send(JSON.stringify({
                   type: "openCard",
                   card_id: cardId,
+                  tab_id: activeTab,
                   room_id: roomId
                 }));
           

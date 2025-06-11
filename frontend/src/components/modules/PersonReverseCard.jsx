@@ -5,9 +5,10 @@ import { useWebSocket } from '../hooks/useWebSocket';
 const PersonReverseCard = ({ category, title, child = 0, cardId, activeTab , socketRef}) => {
     const [isOpen, setIsOpen] = useState(false);
     const {roomId} = useParams()
+    console.log(activeTab)
 
     const toggleCard = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(true);
     };
 
     useEffect(() => {
@@ -23,10 +24,14 @@ const PersonReverseCard = ({ category, title, child = 0, cardId, activeTab , soc
           if (data.type === "cardOpened") {
             console.log("📡 Карточка открыта (сокетом):", data.card_id);
           }
-          
-          if(data.card_id == cardId) {
-            console.log("Adding")
-            toggleCard()
+
+          if (data.type === "cardOpened") {
+            if (data.card_id === parseInt(cardId) && data.tab_id === parseInt(activeTab)) {
+              setIsOpen(true);
+            }
+
+            console.log("Получено:", data);
+            console.log("cardId:", cardId, "activeTab:", activeTab);
           }
         };
       
@@ -37,10 +42,11 @@ const PersonReverseCard = ({ category, title, child = 0, cardId, activeTab , soc
         };
       }, []);
 
+      
+
     return (
         <div
             className={`personCard ${!isOpen ? 'personCard-close' : ''}`}
-            onClick={child ? toggleCard : undefined}
         >
             <div className="front">
                 <div className="front-wrapper">

@@ -55,7 +55,7 @@ const TabsWithCards = ({ otherPlayers, socketRef }) => {
               category={card.category}
               title={card.title}
               child={1}
-              cardId={`${index}`}
+              cardId={`${activeTab}${index}`}
               activeTab={`${activeTab}`}
               socketRef={socketRef}
             />
